@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页</title>
+    <link rel="stylesheet" href="../static/common.css" type="text/css">
+</head>
+<body>
+<h1>欢迎来到论坛注册页面</h1>
+<form class="form" action="register" method="post" name="addUserForm"  onsubmit="return CheckPost();">
+    用户名：<input id="accountId" type="text" name="accountId" placeholder="账号" /><br /><br />
+    密&nbsp;&nbsp;码：<input id="password" type="password" name="password" placeholder="密码" /><br /><br /><br />
+    <input type="radio" name="sex" value="男"  checked="checked"/>男
+    <input type="radio" name="sex" value="女" />女
+    <input type="radio" name="sex" value="保密" />保密 <br /><br />
+    <input type="text" name="nickname"  placeholder="昵称" /> <br /><br />
+    <input type="text" id="email" name="email"  placeholder="邮箱" /> <br /><br />
+    <input type="submit" value="注册"/>
+    <input type="reset" value="重置"/>
+</form>
+</body>
+<script language="javascript">
+    function CheckPost ()
+    {
+        if (addUserForm.accountId.value == "")
+        {
+            alert("请填写用户名！");
+            addUserForm.accountId.focus();
+            return false;
+        }
+        if (addUserForm.password.value.length < 5)
+        {
+            alert("密码不能少于5个字符！");
+            addUserForm.password.focus();
+            return false;
+        }
+        if (addUserForm.email.value == ""){
+            alert("请填写邮箱账号！");
+            addUserForm.accountId.focus();
+            return false;
+        }
+        //邮箱校验
+        var mailReg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+        if(!mailReg.test(addUserForm.email.value)){ //正则验证不通过，格式不对
+            alert("邮箱账号不合乎规范!");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</html>

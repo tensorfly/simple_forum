@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <link rel="stylesheet" href="../static/common.css" type="text/css">
+</head>
+<body>
+<span th:text="${message}">default message</span>
+<h1>欢迎来到论坛登陆页面</h1>
+<form class="form" action="login" method="post" name="loginForm"  onsubmit="return CheckPost();">
+    用户名：<input type="text" name="accountId" placeholder="用户名" /><br /><br />
+    密&nbsp;&nbsp;  码：<input type="password" name="password" placeholder="密码" /><br /><br /><br />
+    <button type="submit" >登陆</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button ><a href="toRegister"  th:target="_blank">注册</a></button>
+</form>
+</body>
+<script language="javascript">
+    function CheckPost ()
+    {
+        if (loginForm.accountId.value == "")
+        {
+            alert("请填写用户名！");
+            loginForm.accountId.focus();
+            return false;
+        }
+        if (loginForm.password.value== "")
+        {
+            alert("请填写用户密码！");
+            loginForm.password.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>
