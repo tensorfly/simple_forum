@@ -5,7 +5,9 @@
     <title>首页</title>
 </head>
 <body>
-<span th:text="${session.user.accountId}"></span>
+<span th:text="${session?.user?.accountId}"></span>
 欢迎来到论坛！
+<div><a href="/toLogin" th:target="_blank">去登录</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/toRegister" th:target="_blank">去注册</a></div>
 </body>
 </html>
