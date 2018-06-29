@@ -43,7 +43,7 @@ public interface UserMapper {
     @Insert("INSERT INTO user(accountId,password,nickname,email,sex,age,status,code,createtime,updatetime) VALUES(#{accountId}, #{password}, #{nickname}, #{email}, #{sex}, #{age}, #{status}, #{code}, #{createtime}, #{updatetime})")
     void insert(User user);
 
-    @Update("UPDATE user SET status=#{status} WHERE accountId =#{accountId}")
+    @Update("UPDATE user SET status=#{status},updatetime=#{updatetime} WHERE accountId =#{accountId}")
     void update(User user);
 
     @Select("SELECT * FROM user WHERE accountId = #{accountId} AND password = #{password}")

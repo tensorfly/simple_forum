@@ -41,12 +41,7 @@ public class UserController {
 
     @RequestMapping("/")
     public String index(){
-        return "index";
-    }
-
-    @RequestMapping("/index")
-    public String indexPage(){
-        return "index";
+        return "redirect:/topic/list";
     }
 
     /**
@@ -152,6 +147,7 @@ public class UserController {
                 message="请勿重复激活";
             }else{
                 user.setStatus(1);
+                user.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
                 int count = userService.updateUserStatus(user);
                 if(count>0){
                     message = "激活成功，请登录";
