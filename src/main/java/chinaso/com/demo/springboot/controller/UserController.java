@@ -114,7 +114,8 @@ public class UserController {
         User selectUser =  userService.getUserByAccountId(accountId);
         if(null != selectUser ){
             message = "该账号已被注册";
-            return "registerError";
+            model.addAttribute("message",message);
+            return "registerResult";
         }
         //密码进行MD5加密
         user.setPassword(MD5Util.md5(user.getPassword()));
