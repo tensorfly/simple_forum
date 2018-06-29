@@ -9,7 +9,7 @@
     <h1>欢迎来到论坛！</h1>
     <a th:align="right" href="/toLogin" th:target="_blank" th:if="${session.user} == null">登录</a>&nbsp;&nbsp;
     <span  th:if="${session.user} != null" th:text="${session?.user?.accountId}"></span>&nbsp;&nbsp;
-    <a th:align="right" href="#" th:target="_blank" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
+    <a th:align="right" href="/loginOut" th:target="_blank" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
     <a th:align="right" href="/toRegister" th:target="_blank">注册</a>
     <h1></h1>
 </div>
@@ -34,9 +34,8 @@
         <table  style="border: solid thin;width: 100%">
         <tr  th:each="topic : ${topics}">
             <td th:width="100px" th:text="${topic.accountId}"></td>
-            <td th:width="500px" th:text="${topic.title}"></td>
+            <td th:width="500px"><a th:href="@{/topic/detail(topicId=${topic.topicId})}" th:text="${topic.title}"></a></td>
             <td th:width="300px" th:text="${#strings.substring(topic.createtime,0,19)}"></td>
-            <td th:width="100px"><a th:href="@{/toReply(id=${topic.topicId})}">评论</a></td>
         </tr>
         </table>
 </div>

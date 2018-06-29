@@ -2,7 +2,6 @@ package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
 import chinaso.com.demo.springboot.entity.Topic;
-import chinaso.com.demo.springboot.entity.User;
 import chinaso.com.demo.springboot.service.TopicService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +81,5 @@ public class TopicController {
         model.addAttribute("topic",topic);
         return "topic/detail";
     }
-
-
-
 
 }

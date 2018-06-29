@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
@@ -34,9 +35,19 @@ public class UserController {
      * @return:String
      */
     @RequestMapping("/toLogin")
-    public String loginIndex(Model model){
-        model.addAttribute("message","");
+    public String loginIndex(){
         return "login";
+    }
+
+    /**
+     * @Description:退出
+     * @param:
+     * @return:String
+     */
+    @RequestMapping("/loginOut")
+    public String loginOut(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
     }
 
     @RequestMapping("/")
@@ -55,14 +66,22 @@ public class UserController {
     @RequestMapping("/login")
     public String login(@RequestParam String accountId,
                         @RequestParam  String password,
-                        HttpSession session
+                        HttpServletRequest request,
+                        Model model
                         ){
+        boolean flag = false;
         String message = "";
         if(accountId == null || StringUtils.isEmpty(accountId)){
             message="用户名不能为空";
+            model.addAttribute("flag",flag);
+            model.addAttribute("message",message);
+            return "login";
         }
         if(password == null || StringUtils.isEmpty(password)){
             message="密码不能为空";
+            model.addAttribute("flag",flag);
+            model.addAttribute("message",message);
+            return "login";
         }
 
         password = MD5Util.md5(password);
@@ -71,7 +90,10 @@ public class UserController {
         if(null != user){
             if(user.getStatus()==1){
                 message = "登陆成功";
-                session.setAttribute("message",message);
+                model.addAttribute("flag",flag);
+                model.addAttribute("message",message);
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(600);
                 session.setAttribute("user",user);
                 return "redirect:/";
             }else{
@@ -80,8 +102,8 @@ public class UserController {
         }else{
             message="用户名或密码错误，请重新登录";
         }
-        session.setAttribute("message",message);
-
+        model.addAttribute("flag",flag);
+        model.addAttribute("message",message);
         return "login";
     }
 
@@ -156,7 +178,7 @@ public class UserController {
                 int count = userService.updateUserStatus(user);
                 if(count>0){
                     flag = true;
-                    message = "激活成功";
+                    message = "帐号已被激活，";
                 }else{
                     message = "激活失败，请重新激活";
                 }

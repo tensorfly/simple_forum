@@ -14,7 +14,7 @@
     <button ><a href="/toRegister"  th:target="_blank">注册</a></button>
 </form>
 
-<span  th:if="${session.message} != null" th:text="${session.message}"></span>
+<span style="color: red"  th:if="${flag} eq false" th:text="${message}"></span>
 </body>
 <script language="javascript">
     function CheckPost ()
