@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>帖子详情</title>
+</head>
+<body>
+<div>
+    <ul>
+        <li th:text="${topic.title}"></li>
+        <li th:text="${topic.accountId}"></li>
+        <li th:text="${topic.content}"></li>
+    </ul>
+</div>
+
+<!--<div>
+    <h1>添加回复</h1>
+    <form class="form" action="/reply/add" method="post" name="replyForm"  onsubmit="return CheckPost();">
+        <input type="text" name="accountId" placeholder="账号" th:value="${accountId}" /><br /><br />
+        <input type="text" name="accountId" placeholder="帖子id" th:value="${topic.topicId}" /><br /><br />
+        内容：<textarea name="content" cols="50" rows="30" placeholder="内容"></textarea><br /><br />
+        <input type="submit" value="提交"/>
+        <input type="reset" value="重置"/>
+    </form>
+</div>-->
+
+</body>
+</html>

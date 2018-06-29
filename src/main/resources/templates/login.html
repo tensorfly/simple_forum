@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../static/common.css" type="text/css">
 </head>
 <body>
-<span th:text="${message}">default message</span>
 <h1>欢迎来到论坛登陆页面</h1>
 <form class="form" action="login" method="post" name="loginForm"  onsubmit="return CheckPost();">
     用户名：<input type="text" name="accountId" placeholder="用户名" /><br /><br />
@@ -14,6 +13,8 @@
     <button type="submit" >登陆</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button ><a href="/toRegister"  th:target="_blank">注册</a></button>
 </form>
+
+<span  th:if="${session.message} != null" th:text="${session.message}"></span>
 </body>
 <script language="javascript">
     function CheckPost ()

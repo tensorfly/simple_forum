@@ -19,6 +19,8 @@
     <input type="submit" value="注册"/>
     <input type="reset" value="重置"/>
 </form>
+<span style="color: blue" th:if="${flag} eq true" th:text="${message}"></span>
+<span style="color: red"  th:if="${flag} eq false" th:text="${message}"></span>
 </body>
 <script language="javascript">
     function CheckPost ()

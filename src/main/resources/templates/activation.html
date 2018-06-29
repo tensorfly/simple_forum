@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="../static/common.css" type="text/css">
 </head>
 <body>
-<span th:text="${message}">default message</span>
+<span style="color: blue" th:if="${flag} eq true" th:text="${message}"></span>
+<a href="/toLogin" th:if="${flag} eq true">去登陆</a>
+<span style="color: red"  th:if="${flag} eq false" th:text="${message}"></span>
 </body>
 </html>

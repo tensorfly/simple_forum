@@ -1,5 +1,6 @@
 package chinaso.com.demo.springboot.controller;
 
+import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
 import chinaso.com.demo.springboot.entity.Topic;
 import chinaso.com.demo.springboot.entity.User;
 import chinaso.com.demo.springboot.service.TopicService;
@@ -23,7 +24,7 @@ public class TopicController {
 
     /**
      * @Description:加载帖子列表
-     * @param:
+     * @param:title
      * @return:String
      */
     @RequestMapping("/list")
@@ -41,15 +42,20 @@ public class TopicController {
     }
 
 
-    //发表帖子
     /**
      * @Description:进入发帖页面
-     * @param:
+     * @param:accountId
      * @return:String
      */
     @RequestMapping("/toPublish")
-    public String publishTopic() {
-        return "topic/pulish";
+    public String publishTopic(Model model,String accountId) {
+        boolean flag = true;
+        if(accountId == null || StringUtils.isEmpty(accountId)){
+            flag = false;
+        }
+        model.addAttribute("flag",flag);
+        model.addAttribute("accountId",accountId);
+        return "topic/publish";
     }
 
     /**
@@ -59,8 +65,25 @@ public class TopicController {
      */
     @RequestMapping("/publish")
     public String save(Topic topic, Model model) {
-        return null;
+        topic.setCreatetime(DateAndTimeUtil.getStringCurrentTime());
+        topic.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
+        int count = topicService.addTopic(topic);
+        return "redirect:/";
     }
+
+    /**
+     * @Description:帖子详情
+     * @param:
+     * @return:String
+     */
+    @RequestMapping("/detail")
+    public String save(Model model,int topicId) {
+        Topic topic = topicService.getTopic(topicId);
+        model.addAttribute("topic",topic);
+        return "topic/detail";
+    }
+
+
 
 
 }
