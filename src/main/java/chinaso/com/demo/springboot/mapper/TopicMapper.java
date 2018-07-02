@@ -31,10 +31,11 @@ public interface TopicMapper {
             "<where> 1=1"+
             "<bind name='title' value=\"'%' + title + '%'\" />"+
             "<if test='title != null'> AND title like #{title}</if>"+
+            "<if test='accountId != null'> AND accountId = #{accountId}</if>"+
             "</where>"+
-            "order by createtime"+
+            "order by createtime desc"+
             "</script>")
-    List<Topic> getAllTopic(@Param("title") String title);
+    List<Topic> getAllTopic(@Param("title") String title,@Param("accountId") String accountId);
 
     /*
      * 查出所有帖子数量
@@ -42,7 +43,7 @@ public interface TopicMapper {
     @Select("SELECT count(*) FROM topic")
     int countTopics();
 
-    @Select("SELECT * FROM topic WHERE accountId = #{accountId} order by createtime")
+    @Select("SELECT * FROM topic WHERE accountId = #{accountId} order by createtime desc")
     @Results({
             @Result(property = "topicId",  column = "topicId"),
             @Result(property = "title", column = "title"),

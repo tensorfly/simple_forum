@@ -2,31 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>我参与的帖子</title>
     <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div>
-    <h1>欢迎来到论坛！</h1>
     <a th:align="right" href="/" th:target="_blank">首页</a>&nbsp;&nbsp;
     <a th:align="right" href="/toLogin" th:target="_blank" th:if="${session.user} == null">登录</a>&nbsp;&nbsp;
     <span  th:if="${session.user} != null" th:text="${session?.user?.accountId}"></span>&nbsp;&nbsp;
     <a th:align="right" href="/loginOut" th:target="_blank" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
     <a th:align="right" href="/toRegister" th:target="_blank">注册</a>
     <h1></h1>
-</div>
-
-<div>
-<form class="form" action="/topic/list" method="post" name="searchForm">
-    <input type="text" name="title" placeholder="标题" th:value="${title}" />
-    <button type="submit" >搜索</button>
-    <a th:align="right" href="/topic/list">重置</a>
-</form>
-</div>
-
-<div th:if="${session.user} != null"><a th:href="@{/topic/mylist(accountId=${session.user.accountId})}" th:target="_blank">我的发帖</a>&nbsp;&nbsp;&nbsp;&nbsp;
-     <a th:href="@{/reply/mylist(accountId=${session.user.accountId})}" th:target="_blank">我的回帖</a>&nbsp;&nbsp;&nbsp;&nbsp;
-     <a th:href="@{/topic/toPublish(accountId=${session.user.accountId})}" th:target="_blank">我要发帖</a>
 </div>
 
 <h1>帖子列表</h1>
@@ -43,7 +29,7 @@
     <nav>
         <ul class="page">
             <li th:if="${not isFirstPage}">
-                <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title})}">上一页</a>
+                <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},accountId=${accountId})}">上一页</a>
             </li>
 
             <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
@@ -51,12 +37,12 @@
                     <span th:text="${pageNo}"></span>
                 </a>
 
-                <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title})}">
+                <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},accountId=${accountId})}">
                     <span th:text="${pageNo}"></span>
                 </a>
             </li>
             <li th:if="${not isLastPage}">
-                <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title})}">下一页</a>
+                <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},accountId=${accountId})}">下一页</a>
             </li>
         </ul>
     </nav>

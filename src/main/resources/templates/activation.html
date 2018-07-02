@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>激活败</title>
-    <link rel="stylesheet" href="../static/common.css" type="text/css">
+    <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <span style="color: blue" th:if="${flag} eq true" th:text="${message}"></span>

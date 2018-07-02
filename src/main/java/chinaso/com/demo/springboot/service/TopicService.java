@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2018/6/27 16:44
  */
 public interface TopicService {
-    public PageInfo findAll(String title,Integer page, Integer pageSize);
+    public PageInfo findAll(String title,String accountId,Integer page, Integer pageSize);
 
     public List<Topic> findByAccountId(String accountId);
 

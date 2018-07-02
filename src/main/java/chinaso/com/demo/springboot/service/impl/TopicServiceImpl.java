@@ -20,9 +20,9 @@ public class TopicServiceImpl implements TopicService {
     TopicMapper topicMapper;
 
     @Override
-    public PageInfo findAll(String title,Integer page, Integer pageSize) {
+    public PageInfo findAll(String title,String accountId,Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<Topic> topics = topicMapper.getAllTopic(title);
+        List<Topic> topics = topicMapper.getAllTopic(title,accountId);
         return new PageInfo<>(topics);
     }
 

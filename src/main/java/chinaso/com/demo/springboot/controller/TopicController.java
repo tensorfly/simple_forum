@@ -1,7 +1,9 @@
 package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
+import chinaso.com.demo.springboot.entity.Reply;
 import chinaso.com.demo.springboot.entity.Topic;
+import chinaso.com.demo.springboot.service.ReplyService;
 import chinaso.com.demo.springboot.service.TopicService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -23,6 +26,9 @@ public class TopicController {
     @Autowired
     TopicService topicService;
 
+    @Autowired
+    ReplyService replyService;
+
     /**
      * @Description:加载帖子列表
      * @param:title
@@ -32,12 +38,11 @@ public class TopicController {
     public String listTopic(
             @RequestParam(value = "title", required = false,defaultValue = "") String title,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "2") Integer pageSize,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             Model model) {
-        List<Topic> topics;
 
-        PageInfo<Topic> pageInfo = new PageInfo<Topic>();
-            pageInfo= topicService.findAll(title,pageNum,pageSize);
+
+        PageInfo<Topic> pageInfo= topicService.findAll(title,null,pageNum,pageSize);
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
         //获得一页显示的条数
@@ -51,6 +56,34 @@ public class TopicController {
         model.addAttribute("title",title);
         model.addAttribute("topics", pageInfo.getList());
         return "index";
+    }
+
+    /**
+     * @Description:加载我的帖子列表
+     * @param:accountId
+     * @return:String
+     */
+    @RequestMapping("/mylist")
+    public String myListTopic(
+            @RequestParam(value = "accountId", required = true) String accountId,
+            @RequestParam(value = "title", required = false,defaultValue = "") String title,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            Model model) {
+        PageInfo<Topic> pageInfo= topicService.findAll(title,accountId,pageNum,pageSize);
+        //获得当前页
+        model.addAttribute("pageNum", pageInfo.getPageNum());
+        //获得一页显示的条数
+        model.addAttribute("pageSize", pageInfo.getPageSize());
+        //是否是第一页
+        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+        //获得总页数
+        model.addAttribute("totalPages", pageInfo.getPages());
+        //是否是最后一页
+        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
+        model.addAttribute("accountId",accountId);
+        model.addAttribute("topics", pageInfo.getList());
+        return "topic/mylist";
     }
 
 
@@ -89,9 +122,11 @@ public class TopicController {
      * @return:String
      */
     @RequestMapping("/detail")
-    public String save(Model model,int topicId) {
+    public String save(Model model,int topicId,HttpServletRequest request) {
         Topic topic = topicService.getTopic(topicId);
         model.addAttribute("topic",topic);
+        List<Reply> replys = replyService.findAllByTopicId(topicId);
+        model.addAttribute("replys",replys);
         return "topic/detail";
     }
 
