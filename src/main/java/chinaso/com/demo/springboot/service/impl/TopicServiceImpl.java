@@ -1,9 +1,10 @@
 package chinaso.com.demo.springboot.service.impl;
 
 import chinaso.com.demo.springboot.entity.Topic;
-import chinaso.com.demo.springboot.entity.User;
 import chinaso.com.demo.springboot.mapper.TopicMapper;
 import chinaso.com.demo.springboot.service.TopicService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +20,15 @@ public class TopicServiceImpl implements TopicService {
     TopicMapper topicMapper;
 
     @Override
-    public List<Topic> findAll() {
-        return topicMapper.getAllTopic();
+    public PageInfo findAll(String title,Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<Topic> topics = topicMapper.getAllTopic(title);
+        return new PageInfo<>(topics);
     }
 
     @Override
     public List<Topic> findByAccountId(String accountId) {
         return topicMapper.getTopicByAccountId(accountId);
-    }
-
-    @Override
-    public List<Topic> findByTitle(String title) {
-        return topicMapper.getTopicByTitle(title);
     }
 
     @Override

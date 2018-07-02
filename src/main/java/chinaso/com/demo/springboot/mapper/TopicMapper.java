@@ -26,16 +26,21 @@ public interface TopicMapper {
     @Options(useGeneratedKeys=true, keyProperty="topicId", keyColumn="topicId")
     void insert(Topic topic);
 
-    @Select("SELECT * FROM topic order by createtime")
-    @Results({
-            @Result(property = "topicId",  column = "topicId"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "content",  column = "content"),
-            @Result(property = "accountId", column = "accountId"),
-            @Result(property = "createtime",  column = "createtime"),
-            @Result(property = "updatetime", column = "updatetime"),
-    })
-    List<Topic> getAllTopic();
+    @Select("<script>"+
+            "SELECT * FROM topic"+
+            "<where> 1=1"+
+            "<bind name='title' value=\"'%' + title + '%'\" />"+
+            "<if test='title != null'> AND title like #{title}</if>"+
+            "</where>"+
+            "order by createtime"+
+            "</script>")
+    List<Topic> getAllTopic(@Param("title") String title);
+
+    /*
+     * 查出所有帖子数量
+     */
+    @Select("SELECT count(*) FROM topic")
+    int countTopics();
 
     @Select("SELECT * FROM topic WHERE accountId = #{accountId} order by createtime")
     @Results({
@@ -47,16 +52,5 @@ public interface TopicMapper {
             @Result(property = "updatetime", column = "updatetime"),
     })
     List<Topic> getTopicByAccountId(@Param("accountId") String accountId);
-
-    @Select("SELECT * FROM topic WHERE title like '%${title}%' order by createtime")
-    @Results({
-            @Result(property = "topicId",  column = "topicId"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "content",  column = "content"),
-            @Result(property = "accountId", column = "accountId"),
-            @Result(property = "createtime",  column = "createtime"),
-            @Result(property = "updatetime", column = "updatetime"),
-    })
-    List<Topic> getTopicByTitle(@Param("title") String title);
 
 }

@@ -3,11 +3,13 @@ package chinaso.com.demo.springboot.controller;
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
 import chinaso.com.demo.springboot.entity.Topic;
 import chinaso.com.demo.springboot.service.TopicService;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,16 +29,27 @@ public class TopicController {
      * @return:String
      */
     @RequestMapping("/list")
-    public String listTopic(Model model,String title) {
+    public String listTopic(
+            @RequestParam(value = "title", required = false,defaultValue = "") String title,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "2") Integer pageSize,
+            Model model) {
         List<Topic> topics;
-        if(title == null || StringUtils.isEmpty(title)){
-            title = "";
-            topics= topicService.findAll();
-        }else {
-            topics = topicService.findByTitle(title);
-        }
+
+        PageInfo<Topic> pageInfo = new PageInfo<Topic>();
+            pageInfo= topicService.findAll(title,pageNum,pageSize);
+        //获得当前页
+        model.addAttribute("pageNum", pageInfo.getPageNum());
+        //获得一页显示的条数
+        model.addAttribute("pageSize", pageInfo.getPageSize());
+        //是否是第一页
+        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+        //获得总页数
+        model.addAttribute("totalPages", pageInfo.getPages());
+        //是否是最后一页
+        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("title",title);
-        model.addAttribute("topics", topics);
+        model.addAttribute("topics", pageInfo.getList());
         return "index";
     }
 
@@ -71,8 +84,8 @@ public class TopicController {
     }
 
     /**
-     * @Description:帖子详情
-     * @param:
+     * @Description:帖子详情页
+     * @param:topicId
      * @return:String
      */
     @RequestMapping("/detail")

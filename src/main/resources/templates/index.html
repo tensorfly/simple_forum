@@ -38,6 +38,27 @@
             <td th:width="300px" th:text="${#strings.substring(topic.createtime,0,19)}"></td>
         </tr>
         </table>
+
+    <nav>
+        <ul class="pagination">
+            <li th:if="${not isFirstPage}">
+                <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title})}">Previous</a>
+            </li>
+
+            <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${pageNum eq pageNo}" href="javascript:void(0);">
+                    <span th:text="${pageNo}"></span>
+                </a>
+
+                <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title})}">
+                    <span th:text="${pageNo}"></span>
+                </a>
+            </li>
+            <li th:if="${not isLastPage}">
+                <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title})}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 </body>
