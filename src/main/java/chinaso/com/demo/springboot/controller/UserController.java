@@ -114,7 +114,7 @@ public class UserController {
      * @return:String
      */
     @RequestMapping("/toRegister")
-    public String insert() {
+    public String insert(HttpServletRequest request) {
         return "register";
     }
 
@@ -124,7 +124,7 @@ public class UserController {
      * @return:String
      */
     @RequestMapping("/register")
-    public String save(User user,Model model) {
+    public String save(User user,Model model,HttpServletRequest request) {
         boolean flag = false;
         String message = "";
         // 获取用户名
@@ -148,7 +148,9 @@ public class UserController {
             flag = true;
             message = "注册成功，请去邮箱激活账号";
             //注册成功则通过线程的方式给用户发送一封邮件
-            new Thread(new MailUtil(user.getEmail(), uuidCode,user.getAccountId())).start();
+            //服务器地址
+            String url="http://" + request.getServerName()+ ":" + request.getServerPort();
+            new Thread(new MailUtil(user.getEmail(), uuidCode,user.getAccountId(),url)).start();
         }else{
             message = "注册失败";
         }

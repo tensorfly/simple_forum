@@ -74,6 +74,7 @@ public class ReplyController {
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("accountId",accountId);
         model.addAttribute("topics", topics);
+        model.addAttribute("headTitle", "我参与的帖子");
         return "topic/mylist";
     }
 

@@ -1,0 +1,9 @@
+<div th:fragment="head">
+    <h1>欢迎来到论坛！</h1>
+    <a th:align="right" href="/">首页</a>&nbsp;&nbsp;
+    <a th:align="right" href="/toLogin" th:if="${session.user} == null">登录</a>&nbsp;&nbsp;
+    <span  th:if="${session.user} != null" th:text="${session?.user?.accountId}"></span>&nbsp;&nbsp;
+    <a th:align="right" href="/loginOut" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
+    <a th:align="right" href="/toRegister" th:target="_blank">注册</a>
+    <h1></h1>
+</div>

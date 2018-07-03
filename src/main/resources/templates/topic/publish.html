@@ -6,6 +6,7 @@
     <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<div th:include="head :: head"></div>
 <h1>发布帖子</h1>
 <form class="form" action="/topic/publish" method="post" name="publishForm"  onsubmit="return CheckPost();">
     <input type="hidden" name="accountId" placeholder="账号" th:value="${accountId}" />

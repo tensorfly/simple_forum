@@ -41,7 +41,6 @@ public class TopicController {
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             Model model) {
 
-
         PageInfo<Topic> pageInfo= topicService.findAll(title,null,pageNum,pageSize);
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
@@ -83,6 +82,7 @@ public class TopicController {
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("accountId",accountId);
         model.addAttribute("topics", pageInfo.getList());
+        model.addAttribute("headTitle", "我发表的帖子");
         return "topic/mylist";
     }
 

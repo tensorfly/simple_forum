@@ -6,15 +6,8 @@
     <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div>
-    <h1>欢迎来到论坛！</h1>
-    <a th:align="right" href="/" th:target="_blank">首页</a>&nbsp;&nbsp;
-    <a th:align="right" href="/toLogin" th:target="_blank" th:if="${session.user} == null">登录</a>&nbsp;&nbsp;
-    <span  th:if="${session.user} != null" th:text="${session?.user?.accountId}"></span>&nbsp;&nbsp;
-    <a th:align="right" href="/loginOut" th:target="_blank" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
-    <a th:align="right" href="/toRegister" th:target="_blank">注册</a>
-    <h1></h1>
-</div>
+
+<div th:include="head :: head"></div>
 
 <div>
 <form class="form" action="/topic/list" method="post" name="searchForm">
@@ -39,7 +32,7 @@
     </div>
 </div>
 
-<div>
+<div th:if=" ${totalPages} gt '1'">
     <nav>
         <ul class="page">
             <li th:if="${not isFirstPage}">

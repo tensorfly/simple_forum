@@ -15,11 +15,13 @@ public class MailUtil implements Runnable {
     private String email;// 收件人邮箱
     private String code;// 激活码
     private String accountId;//账号
+    private String url;//服务器地址
 
-    public MailUtil(String email, String code,String accountId) {
+    public MailUtil(String email, String code,String accountId,String url) {
         this.email = email;
         this.code = code;
         this.accountId = accountId;
+        this.url = url;
     }
 
     public void run() {
@@ -58,8 +60,8 @@ public class MailUtil implements Runnable {
             // 2.3设置邮件主题
             message.setSubject("账号激活");
             // 2.4设置邮件内容
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/activation/" + accountId + "/"
-                    + code + "'>http://localhost:8080/activation/" + accountId + "/" + code
+            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='"+ url + "/activation/" + accountId + "/"
+                    + code + "'>"+ url + "/activation/" + accountId + "/" + code
                     + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件

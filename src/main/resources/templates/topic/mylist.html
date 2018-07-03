@@ -2,20 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>我参与的帖子</title>
+    <title th:text="${headTitle}"></title>
     <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div>
-    <a th:align="right" href="/" th:target="_blank">首页</a>&nbsp;&nbsp;
-    <a th:align="right" href="/toLogin" th:target="_blank" th:if="${session.user} == null">登录</a>&nbsp;&nbsp;
-    <span  th:if="${session.user} != null" th:text="${session?.user?.accountId}"></span>&nbsp;&nbsp;
-    <a th:align="right" href="/loginOut" th:target="_blank" th:if="${session.user} != null">退出</a>&nbsp;&nbsp;
-    <a th:align="right" href="/toRegister" th:target="_blank">注册</a>
-    <h1></h1>
-</div>
+<!--引入公共头-->
+<div th:include="head :: head"></div>
 
-<h1>帖子列表</h1>
+<h1 th:text="${headTitle}"></h1>
 <div id="topic_list">
     <div class="cell" th:each="topic,iterStat : ${topics}">
         <span th:text="${iterStat.index+1}"></span>
@@ -25,7 +19,7 @@
     </div>
 </div>
 
-<div>
+<div th:if=" ${totalPages} gt '1'">
     <nav>
         <ul class="page">
             <li th:if="${not isFirstPage}">

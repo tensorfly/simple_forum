@@ -6,8 +6,7 @@
     <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<a th:align="right" href="/" th:target="_blank">首页</a>&nbsp;&nbsp;
-<div>
+<div th:include="head :: head"></div>
 <div>
     <span class="topic_full_title" th:text="${topic.title}">
     </span>
