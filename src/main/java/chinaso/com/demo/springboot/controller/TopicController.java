@@ -38,7 +38,7 @@ public class TopicController {
     public String listTopic(
             @RequestParam(value = "title", required = false,defaultValue = "") String title,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "pageSize", defaultValue = "30") Integer pageSize,
             Model model) {
 
         PageInfo<Topic> pageInfo= topicService.findAll(title,null,pageNum,pageSize);
@@ -54,7 +54,7 @@ public class TopicController {
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("title",title);
         model.addAttribute("topics", pageInfo.getList());
-        return "index";
+        return "index_new";
     }
 
     /**
@@ -100,7 +100,7 @@ public class TopicController {
         }
         model.addAttribute("flag",flag);
         model.addAttribute("accountId",accountId);
-        return "topic/publish";
+        return "topic/publish_new";
     }
 
     /**
@@ -127,7 +127,7 @@ public class TopicController {
         model.addAttribute("topic",topic);
         List<Reply> replys = replyService.findAllByTopicId(topicId);
         model.addAttribute("replys",replys);
-        return "topic/detail";
+        return "topic/detail_new";
     }
 
 }

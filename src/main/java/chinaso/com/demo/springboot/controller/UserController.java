@@ -36,7 +36,7 @@ public class UserController {
      */
     @RequestMapping("/toLogin")
     public String loginIndex(){
-        return "login";
+        return "login_new";
     }
 
     /**
@@ -75,13 +75,13 @@ public class UserController {
             message="用户名不能为空";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "login";
+            return "login_new";
         }
         if(password == null || StringUtils.isEmpty(password)){
             message="密码不能为空";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "login";
+            return "login_new";
         }
 
         password = MD5Util.md5(password);
@@ -104,7 +104,7 @@ public class UserController {
         }
         model.addAttribute("flag",flag);
         model.addAttribute("message",message);
-        return "login";
+        return "login_new";
     }
 
 
@@ -115,7 +115,7 @@ public class UserController {
      */
     @RequestMapping("/toRegister")
     public String insert(HttpServletRequest request) {
-        return "register";
+        return "register_new";
     }
 
     /**
@@ -134,7 +134,7 @@ public class UserController {
             message = "该账号已被注册";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "register";
+            return "register_new";
         }
         //密码进行MD5加密
         user.setPassword(MD5Util.md5(user.getPassword()));
@@ -156,7 +156,7 @@ public class UserController {
         }
         model.addAttribute("flag",flag);
         model.addAttribute("message",message);
-       return "register";
+       return "register_new";
     }
 
     //激活账号

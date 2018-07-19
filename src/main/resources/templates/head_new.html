@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- meta -->
+    <meta charset="utf-8"/>
+    <meta name='description' content='Chinaso：AI专业社区论坛'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
+    <!-- see http://smerity.com/articles/2013/where_did_all_the_http_referrers_go.html -->
+    <meta name="referrer" content="always">
+
+
+    <meta name="author" content="EDP@TaoBao" />
+
+    <meta property="wb:webmaster" content="617be6bd946c6b96" />
+
+
+
+
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="image/x-icon"/>
+
+
+    <!-- style -->
+    <!--<link rel="stylesheet" href="https://o4j806krb.qnssl.com/public/stylesheets/index.min.23a5b1ca.min.css" media="all" />-->
+    <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css"  media="all" />
+
+
+    <!-- scripts -->
+    <!-- <script src="https://o4j806krb.qnssl.com/public/index.min.f7c13f64.min.js"></script>-->
+    <script th:src="@{/js/index.js}" ></script>
+
+    <style type="text/css">
+        .logo{
+            width: 740px;
+            position: relative;
+            z-index: 9;
+            margin: 5px auto 8px;
+        }
+        .logo, .logo a {
+            height: 125px;
+            text-align: center;
+        }
+    </style>
+
+
+
+
+    <title>Chinaso：AI专业社区论坛</title>
+
+    <meta content="_csrf" name="csrf-param">
+    <meta content="M9IWWE3V-1qepEfgBMIgN0j3UAV5v30k1A-k" name="csrf-token">
+</head>
+<body>
+<!-- navbar -->
+<!--<div th:include="head_new :: head_new"></div>-->
+<div class="logo" th:fragment="logo">
+    <a href='/'>
+        <img th:src="@{/image/logo.png}" />
+    </a>
+</div>
+<div class='navbar' th:fragment="navbar">
+
+    <div class='navbar-inner'>
+        <div class='container'>
+            <form id='search_form' class='navbar-search' action="/topic/list" method="post" name="searchForm">
+                <input type="text" name="title" th:value="${title}" class='search-query span3' />
+            </form>
+
+            <ul class='nav pull-right'>
+                <li><a href="/">首页</a></li>
+
+                <!--<li><a href="#">新手入门</a></li>
+                <li><a href="#">API</a></li>
+
+                <li><a href="#" target="">关于</a></li>-->
+
+
+                <li><a href="/toRegister">注册</a></li>
+                <li><a  href="/toLogin" th:if="${session.user} == null">登录</a></li>
+                <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
+                <li><a  href="/loginOut" th:if="${session.user} != null">退出</a></li>
+                <li><a th:if="${session.user} != null" th:href="@{/topic/toPublish(accountId=${session.user.accountId})}" th:target="_blank">发布话题</a></li>
+
+            </ul>
+            <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </div>
+    </div>
+</div>
+</body>

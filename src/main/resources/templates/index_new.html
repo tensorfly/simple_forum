@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- meta -->
+  <meta charset="utf-8"/>
+  <meta name='description' content='Chinaso：AI专业社区论坛'>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
+  <!-- see http://smerity.com/articles/2013/where_did_all_the_http_referrers_go.html -->
+  <meta name="referrer" content="always">
+
+
+  <meta name="author" content="EDP@TaoBao" />
+
+  <meta property="wb:webmaster" content="617be6bd946c6b96" />
+
+
+
+
+  <link rel="icon" th:href="@{/image/favicon.ico}" type="image/x-icon"/>
+
+
+  <!-- style -->
+  <!--<link rel="stylesheet" href="https://o4j806krb.qnssl.com/public/stylesheets/index.min.23a5b1ca.min.css" media="all" />-->
+  <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css"  media="all" />
+
+
+  <!-- scripts -->
+ <!-- <script src="https://o4j806krb.qnssl.com/public/index.min.f7c13f64.min.js"></script>-->
+  <script th:src="@{/js/index.js}" ></script>
+
+    <style type="text/css">
+        .logo{
+            width: 740px;
+            position: relative;
+            z-index: 9;
+            margin: 5px auto 8px;
+        }
+        .logo, .logo a {
+            height: 125px;
+            text-align: center;
+        }
+    </style>
+
+
+
+
+  <title>Chinaso：AI专业社区论坛</title>
+
+  <meta content="_csrf" name="csrf-param">
+  <meta content="M9IWWE3V-1qepEfgBMIgN0j3UAV5v30k1A-k" name="csrf-token">
+</head>
+<body>
+<!-- navbar -->
+<!--<div th:include="head_new :: logo">
+    <div th:include="head_new :: navbar">-->
+<!--公共头开始-->
+<div class="logo">
+    <a href='/'>
+        <img th:src="@{/image/logo.png}" />
+    </a>
+</div>
+<div class='navbar'>
+
+    <div class='navbar-inner'>
+        <!--<a class='brand' href='/'>
+
+            <img th:src="@{/image/logo.png}" />
+
+        </a>-->
+        <div class='container'>
+            <form id='search_form' class='navbar-search' action="/topic/list" method="post" name="searchForm">
+                <input type="text" name="title" th:value="${title}" class='search-query span3' />
+            </form>
+
+            <ul class='nav pull-right'>
+                <li><a href="/">首页</a></li>
+
+               <!-- <li><a href="#">新手入门</a></li>
+                <li><a href="#">API</a></li>
+
+                <li><a href="#" target="">关于</a></li>-->
+
+
+                <li><a href="/toRegister">注册</a></li>
+                <li><a  href="/toLogin" th:if="${session.user} == null">登录</a></li>
+                <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
+                <li><a  href="/loginOut" th:if="${session.user} != null">退出</a></li>
+                <li><a th:if="${session.user} != null" th:href="@{/topic/toPublish(accountId=${session.user.accountId})}" th:target="_blank">发布话题</a></li>
+
+            </ul>
+            <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--公共头结束-->
+
+<div id='main'>
+  <div id="content">
+    <div class="panel">
+      <div class="header">
+
+        <a href="/"
+           class="topic-tab current-tab">全部</a>
+
+        <a href="#"
+           class="topic-tab ">精华</a>
+
+        <a href="#"
+           class="topic-tab ">分享</a>
+
+        <a href="#"
+           class="topic-tab ">问答</a>
+
+      </div>
+
+      <div class="inner no-padding">
+        <div id="topic_list">
+            <div class="cell" th:each="topic,iterStat : ${topics}">
+                <!--<span class="user_avatar pull-left" th:text="${iterStat.index+1}"></span>-->
+                <a class="user_avatar pull-left" href="#">
+                    <img src="https://avatars0.githubusercontent.com/u/4279697?v=4&s=120"
+                         th:title="${topic.accountId}"
+                    />
+                </a>
+
+                <span class="reply_count pull-left">
+    <span class="count_of_replies" title="回复数">
+      85
+    </span>
+    <span class="count_seperator">/</span>
+    <span class="count_of_visits" title='点击数'>
+      14770
+    </span>
+  </span>
+                <span class='last_time pull-right'>
+      <span class="last_active_time" th:text="${#strings.substring(topic.createtime,0,19)}"></span>
+</span>
+                    <div class="topic_title_wrapper">
+
+  <a class='topic_title' th:href="@{/topic/detail(topicId=${topic.topicId})}" th:text="${topic.title}">
+              </a>
+  </div>
+
+          </div>
+
+        </div>
+
+        <div class='pagination' th:if=" ${totalPages} gt '1'" th:attr="current_page=${pageNum}">
+          <ul>
+              <li th:if="${not isFirstPage}">
+                  <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title})}">«</a>
+              </li>
+
+              <li  th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
+                  <a th:if="${pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}">
+                  </a>
+
+                  <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title})}" th:text="${pageNo}">
+                  </a>
+              </li>
+              <li th:if="${not isLastPage}">
+                  <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title})}">»</a>
+              </li>
+          </ul>
+        </div>
+        <script>
+            $(document).ready(function () {
+                var $nav = $('.pagination');
+                var current_page = $nav.attr('current_page');
+                if (current_page) {
+                    $nav.find('li').each(function () {
+                        var $li = $(this);
+                        var $a = $li.find('a');
+                        if ($a.html() == current_page) {
+                            $li.addClass('active');
+                            $a.removeAttr('href');
+                        }
+                    });
+                }
+            });
+        </script>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div id='backtotop'>回到顶部</div>
+
+<div th:include="footer :: footer"></div>
+<div id="sidebar-mask"></div>
+
+
+<script>
+    // google analytics
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script', "https://www.google-analytics.com/analytics.js",'ga');
+
+    ga('create', 'UA-41753901-5', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+<div style="display:none;">
+  <script src="https://s95.cnzz.com/z_stat.php?id=1254020586&web_id=1254020586" language="JavaScript"></script>
+</div>
+
+
+</body>
+</html>

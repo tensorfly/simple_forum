@@ -19,7 +19,7 @@ public interface ReplyMapper {
     @Options(useGeneratedKeys=true, keyProperty="replyId", keyColumn="replyId")
     void insert(Reply reply);
 
-    @Select("SELECT * FROM reply WHERE topicId = #{topicId} order by createtime desc")
+    @Select("SELECT * FROM reply WHERE topicId = #{topicId} order by createtime asc")
     List<Reply> getAllReply(@Param("topicId") int topicId);
 
     @Select("SELECT topicId FROM reply WHERE accountId = #{accountId}")

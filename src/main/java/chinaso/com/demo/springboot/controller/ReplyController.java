@@ -41,7 +41,7 @@ public class ReplyController {
         model.addAttribute("topic",topic);
         List<Reply> replys = replyService.findAllByTopicId(reply.getTopicId());
         model.addAttribute("replys",replys);
-        return "topic/detail";
+        return "topic/detail_new";
     }
 
     /**
