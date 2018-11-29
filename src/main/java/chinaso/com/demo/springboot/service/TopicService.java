@@ -11,11 +11,21 @@ import java.util.List;
  * @date 2018/6/27 16:44
  */
 public interface TopicService {
-    public PageInfo findAll(String title,String accountId,Integer page, Integer pageSize);
+     PageInfo findAll(String title,int sectionId, String accountId,Integer page, Integer pageSize,int state);
 
-    public List<Topic> findByAccountId(String accountId);
+     List<Topic> findByAccountId(String accountId);
 
-    public int addTopic(Topic topic);
+     int addTopic(Topic topic);
 
-    public Topic getTopic(int topicId);
+     Topic getTopic(int topicId);
+
+    String deleteTopicByTopicId(int topicId);
+
+    String batchDeleteTopics(String topicIds);
+
+    String batchUpdateState(String topicIds,int state);
+
+    String findTopicsBySectionId(int sectionId,int pageNo, int pageSize,int state);
+
+    String updateState(int topicId,int state);
 }

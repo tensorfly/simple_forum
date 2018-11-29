@@ -41,6 +41,10 @@
             height: 125px;
             text-align: center;
         }
+
+        #imgVerify {
+            height: 36px;
+        }
     </style>
 
 
@@ -129,7 +133,7 @@
                     <strong th:text="${message}"></strong>
                 </div>
 
-                <form id='signin_form' class='form-horizontal' action='/login' method='post' name="loginForm" onsubmit="return CheckPost();">
+                <form id='loginForm' class='form-horizontal' method='post' name="loginForm" >
                     <div class='control-group'>
                         <label class='control-label' for='accountId'>用户名</label>
 
@@ -144,13 +148,23 @@
                             <input class='input-xlarge' id='password' name='password' size='30' type='password'/>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class='controls'>
+                            <input class='input-xlarge' placeholder="请输入验证码" id='code' name='code' size='4' type='text'/>
+                        </div>
+                        <div class="controls">
+                            <a href="javascript:void(0);" title="点击更换验证码">
+                                <img id="imgVerify" src="" alt="更换验证码" onclick="getVerify(this);">
+                            </a>
+                        </div>
+                    </div>
                     <input type='hidden' name='_csrf' value='UXvsUk2g-WVTJXGLNdmGG2ySyyFXOUXKdcgk'/>
 
                     <div class='form-actions'>
-                        <input type='submit' class='span-primary' value='登录'/>
-                       <!-- <a href="https://cnodejs.org/auth/github">
+                        <input type='submit' class='span-primary' value='登录' id="login"/>
+         <!--               <a href="#">
             <span class="span-info">
-            通过 GitHub 登录
+            通过 微信 登录
             </span>
                         </a>-->
                         <a id="forgot_password" href='search_pass.html'>忘记密码了?</a>
@@ -176,8 +190,58 @@
     ga('create', 'UA-41753901-5', 'auto');
     ga('send', 'pageview');
 
-    function CheckPost ()
+    $(function(){
+        //首次获取验证码
+        $("#imgVerify").attr("src","/code/getVerify?"+Math.random());
+    });
+
+    $('#login').click(function(){
+
+        var accountId = $('#accountId').val();
+        if(accountId==""){
+            alert("请填写用户名！");
+            loginForm.accountId.focus();
+            return false;
+        }
+        var password = $('#password').val();
+        if(password==""){
+            alert("请填写用户密码！");
+            loginForm.password.focus();
+            return false;
+        }
+
+        var code = $("#code").val();
+        var flag = false;
+        if(code!=null && code!=""){
+            code = code.toUpperCase();//将输入的字母全部转换成大写
+            $.ajax({
+                url : "/code/checkVerify",
+                data: {code:code},
+                type: 'get',
+                dataType: 'json',
+                async:false,
+                success : function(datas) {
+                    flag = datas;
+                }
+            });
+        }else{
+            flag = false;
+        }
+        if(flag){
+            alert("验证码校验通过");
+            submitForm();//提交表单
+        }else{
+            alert("请输入正确的验证码");
+            loginForm.code.focus();
+            return false;
+        }
+
+
+    });
+
+    function CheckPost()
     {
+
         if (loginForm.accountId.value == "")
         {
             alert("请填写用户名！");
@@ -191,6 +255,45 @@
             return false;
         }
         return true;
+    }
+
+    //提交表单
+    function submitForm(){
+
+        document.loginForm.action = "/login";
+        document.loginForm.submit();
+    }
+
+    //获取验证码
+    function getVerify(obj){
+        obj.src = "/code/getVerify?"+Math.random();
+    }
+
+    //校验验证码
+    function checkSum(){
+        var code = $("#code").val();
+        if(code!=null && code!=""){
+            code = code.toUpperCase();//将输入的字母全部转换成大写
+            $.ajax({
+                url : "/code/checkVerify",
+                data: {code:code},
+                type: 'get',
+                dataType: 'json',
+                success : function(datas) {
+                    if(datas){
+                        submitForm();//提交表单
+                    }else {
+                        $(".warn_text").text("验证码输入错误！");
+                        $(".login_form_warn").css("display","block");
+                        return false;
+                    }
+                }
+            });
+        }else{
+            $(".warn_text").text("请输入验证码！");
+            $(".login_form_warn").css("display","block");
+            return false;
+        }
     }
 </script>
 

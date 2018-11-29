@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>版块管理页面</title>
+    <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
+    <script src="http://n2.static.pg0.cn/www/common/base/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<table>
+    <caption>版块列表数据</caption>
+    <thead class="header">
+    <tr>
+        <th>序号</th>
+        <th>版块名称</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody class="section-list">
+
+    </tbody>
+</table>
+
+<div style="height: 80px"></div>
+
+<div class="topic-data">
+<table>
+    <caption>贴子列表数据</caption>
+    <thead class="header">
+    <tr>
+        <th width="30"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" >
+        </th>
+        <th>序号</th>
+        <th>标题</th>
+        <th>创建时间</th>
+        <th>审核状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody class="topic-list">
+
+    </tbody>
+</table>
+</div>
+
+<div class="page"></div>
+
+<div class="batch"></div>
+
+</body>
+<script language="javascript">
+
+    $(function () {
+        var listUrl = '/admin/section/list';
+        $.ajax({
+            url: listUrl,
+            type: 'get',
+            dataType: 'json',
+            success: function (resp) {
+                var flag = resp.status;
+                if (flag==0) {
+                    var list = resp.data;
+                    //获取数据成功后动态添加到页面中
+                    var textValue = '';
+                    for (var i = 0; i < list.length; i++) {
+                        var number = i+1;
+                        textValue += "<tr><td>" + number + "</td>"
+                        /*textValue += "<tr><td>" + list[i].sectionId + "</td>"*/
+                        textValue += "<td><a class='list-topics' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"getTopics('"+list[i].sectionId+"',1)\">" + list[i].title + "</td>"
+                        textValue += "<td>" + formatDate(list[i].createtime) + "</td>"
+                        textValue += "<td><a class='delete' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"deleteSection('"+list[i].sectionId+"')\">删除</a></td>"
+                        textValue += "</tr>";
+                    }
+                    $('.section-list').append(textValue);
+                }
+            }
+        });
+    });
+
+
+
+    function deleteSection(sectionId){
+        var deleteUrl = '/admin/section/delete/'+sectionId;
+        $.ajax({
+            url:deleteUrl,
+            type:'post',
+            dataType:'json',
+            success:function(resp){
+                alert(resp.msg);
+            }
+        });
+        window.location.reload();
+    }
+
+    function getTopics(sectionId,pageNo){
+        $('.topic-list').html("");
+        var url = '/admin/getTopics/'+sectionId+"?pageNo="+pageNo;
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'json',
+            success: function (resp) {
+                var flag = resp.status;
+                if (flag==0) {
+                    var list = resp.data.list;
+                    //获取数据成功后动态添加到页面中
+                    var textValue = '';
+                    for (var i = 0; i < list.length; i++) {
+                        var number = i+1;
+                        textValue += "<tr>";
+                        textValue += "<td><input type='checkbox' name='IDCheck' value='"+ list[i].topicId +"' class='acb' /></td>";
+                        textValue += "<td>" + number + "</td>"
+                        /*textValue += "<tr><td>" + list[i].topicId + "</td>"*/
+                        textValue += "<td>" + list[i].title + "</td>"
+                        textValue += "<td>" + list[i].createtime.substring(0,19) + "</td>"
+                        textValue += "<td>" + formateState(list[i].state) + "</td>";
+                        textValue += "<td>";
+                        if(list[i].state==2){
+                            textValue += "<a class='check-pass' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"check('"+sectionId+"','"+list[i].topicId+"',0,'"+pageNo+"')\">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                            textValue += "<a class='check-not-pass' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"check('"+sectionId+"','"+list[i].topicId+"',1,'"+pageNo+"')\">不通过</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                        }
+                        textValue += "<a class='delete' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"deleteTopic('"+sectionId+"','"+list[i].topicId+"')\">删除</a></td>";
+                        textValue += "</tr>";
+                    }
+                    $('.topic-list').append(textValue);
+                    //分页数据 page
+                    //总页数
+                    var totalPage = resp.data.totalPage;
+                    //总数量
+                    var totalCount = resp.data.totalCount;
+                    //是否是首页
+                    var isFirstPage = resp.data.isFirstPage;
+                    //是否有上一页
+                    var hasPreviousPage = resp.data.hasPreviousPage;
+                    //是否有下一页
+                    var hasNextPage = resp.data.hasNextPage;
+                    var pageHtmlValue = "<span>共有" + totalCount + "条记录，当前第" + pageNo + "/" + totalPage + "页</span>&nbsp;&nbsp;&nbsp;&nbsp;";
+                    if(hasPreviousPage){
+                        var prePageNo = Number(pageNo) - 1;
+                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"',1)\">首页</a></span>&nbsp;&nbsp;&nbsp;";
+                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+prePageNo+"')\">上一页</a></span>&nbsp;&nbsp;&nbsp;";
+                    }
+                    if(hasNextPage){
+                        var nextPageNo = Number(pageNo) + 1;
+                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+nextPageNo+"')\">下一页</a></span>&nbsp;&nbsp;&nbsp;";
+                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+totalPage+"')\">尾页</a></span>&nbsp;&nbsp;&nbsp;";
+                    }
+                    $('.page').html(pageHtmlValue);
+
+                    var batchValue = "<span><a class='batchcheck-pass' href='javascript:;' onclick=\"batchCheck('"+sectionId+"','"+pageNo+"',0)\"  >批量审核通过</a></span>&nbsp;&nbsp;&nbsp;<span><a class='batchcheck-not-pass' href='javascript:;' onclick=\"batchCheck('"+sectionId+"','"+pageNo+"',1)\"  >批量审核不通过</a></span>&nbsp;&nbsp;&nbsp;<span><a class='batchDelete' href='javascript:;' onclick=\"batchDeleteTopic('"+sectionId+"')\"  >批量删除</a></span>"
+                    $('.batch').html(batchValue);
+                }
+            }
+        });
+    }
+
+
+/*
+ * 是否全选
+ */
+    function selectOrClearAllCheckbox(obj) {
+        var checkStatus = $(obj).is(':checked');
+        if (checkStatus) {
+            $("input[type='checkbox']").prop("checked","checked");
+        } else {
+            $("input[type='checkbox']").removeAttr("checked");
+        }
+    }
+
+    //时间转换
+    function   formatDate(now)   {
+        var   now= new Date(now);
+        var   year=now.getFullYear();
+        var   month=now.getMonth()+1;
+        var   date=now.getDate();
+        var   hour=now.getHours();
+        var   minute=now.getMinutes();
+        var   second=now.getSeconds();
+        return   year+"年"+fixZero(month,2)+"月"+fixZero(date,2)+"日"+fixZero(hour,2)+":"+fixZero(minute,2)+":"+fixZero(second,2);
+    }
+    //时间如果为单位数补0
+    function fixZero(num,length){
+        var str=""+num;
+        var len=str.length;     var s="";
+        for(var i=length;i-->len;){
+            s+="0";
+        }
+        return s+str;
+    }
+
+    //0：审核通过；1：审核不通过；2：默认待审核
+    //状态转换
+    function formateState(state) {
+        if(state==0){
+            return "已审核";
+        }else if(state==1){
+            return "不通过";
+        }else {
+            return "待审核";
+        }
+    }
+    
+    //审核是否通过
+    function check(sectionId,topicId,state,pageNo) {
+        var checkUrl = '/admin/topic/check/'+topicId+"?state="+state;
+        $.ajax({
+            url:checkUrl,
+            type:'post',
+            dataType:'json',
+            success:function(resp){
+                var flag = resp.status;
+                if (flag==0) {
+                    alert(resp.msg);
+                    getTopics(sectionId,pageNo);
+                }else {
+                    alert(resp.msg);
+                }
+
+            }
+        });
+        
+    }
+
+    //批量审核是否通过
+    function batchCheck(sectionId,pageNo,state) {
+
+        //判断至少选择了一项
+        var checkedNum = $("input[name='IDCheck']:checked").length;
+        if (checkedNum == 0) {
+            alert("至少选择一项审核！");
+            return;
+        }
+        if (confirm("确定审核选中的帖子？")) {
+            var topicIdList = new Array();
+            $("input[name='IDCheck']:checked").each(function(){
+                topicIdList.push($(this).val());
+            });
+            $.ajax({
+                type : "post",
+                url : "/admin/topic/batch/check",
+                data : {topicIds : topicIdList.toString(),state : state},
+                success : function(resp){
+                    var flag = resp.status;
+                    if (flag==0) {
+                        alert(resp.msg);
+                        getTopics(sectionId,pageNo);
+                    }else {
+                        alert(resp.msg);
+                    }
+                },
+                error : function(){
+                    alert("审核失败！")
+                }
+            });
+        }
+    }
+
+
+    function deleteTopic(sectionId,topicId){
+        var deleteUrl = '/admin/topic/delete/'+topicId;
+        $.ajax({
+            url:deleteUrl,
+            type:'post',
+            dataType:'json',
+            success:function(resp){
+                var flag = resp.status;
+                if (flag==0) {
+                    alert(resp.msg);
+                    getTopics(sectionId,1);
+                }else {
+                    alert(resp.msg);
+                }
+            }
+        });
+    }
+
+    function batchDeleteTopic(sectionId){
+
+        //判断至少选择了一项
+        var checkedNum = $("input[name='IDCheck']:checked").length;
+        if (checkedNum == 0) {
+            alert("至少选择一项删除！");
+            return;
+        }
+        if (confirm("确定删除选中的帖子？")) {
+            var topicIdList = new Array();
+            $("input[name='IDCheck']:checked").each(function(){
+                topicIdList.push($(this).val());
+            });
+            $.ajax({
+                type : "post",
+                url : "/admin/topic/batch/delete/",
+                data : {topicIds : topicIdList.toString()},
+                success : function(resp){
+                    var flag = resp.status;
+                    if (flag==0) {
+                        alert(resp.msg);
+                        getTopics(sectionId,1);
+                    }else {
+                        alert(resp.msg);
+                    }
+                },
+                error : function(){
+                    alert("删除失败！")
+                }
+            });
+        }
+    }
+</script>
+</html>

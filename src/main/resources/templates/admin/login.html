@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
+    <script src="http://n2.static.pg0.cn/www/common/base/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<h1>管理员登录</h1>
+    用户名：<input type="text" name="username" id="username" placeholder="用户名" /><br /><br />
+    密&nbsp;&nbsp;  码：<input type="password" name="password" id="password" placeholder="密码" /><br /><br /><br />
+    <button id="login">登陆</button>
+</body>
+<script language="javascript">
+    $(function () {
+        $("#login").click(function () {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            if(username == "" || $.trim(username).length == 0){
+                alert("请填写用户名！");
+                return;
+            }
+            if(password == "" || $.trim(password).length == 0){
+                alert("请填写用户密码！");
+                return;
+            }
+            $.ajax({
+                url : "/admin/login",
+                data: {username:username,password:password},
+                type: 'post',
+                dataType: 'json',
+                success : function(data) {
+                   var status = data.status;
+                    if (status == "0") {
+                        //登陆成功
+                        var url = "/admin/section/listPage";
+                        window.location.href=url;
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    alert("请求失败！");
+                }
+            });
+
+            });
+    });
+</script>
+</html>

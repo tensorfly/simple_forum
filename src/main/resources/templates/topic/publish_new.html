@@ -135,16 +135,17 @@
                 <input type="hidden" name="accountId" placeholder="账号" th:value="${accountId}" />
                 <fieldset>
                     <span class="tab-selector">选择版块：</span>
-                    <select name="tab" id="tab-value">
+                    <select name="sectionId" id="sectionId">
                         <option value="">请选择</option>
 
                         <!--<option value="weex" >weex</option>-->
 
+                        <span th:each="section,iterStat : ${sections}">
+                        <option th:value="${section.sectionId}" th:text="${section.title}" ></option>
+                        </span>
 
-                        <option value="share" >分享</option>
 
-
-                        <option value="ask" >问答</option>
+                        <!--<option value="ask"  >问答</option>-->
 
 
                         <!--<option value="job" >招聘</option>-->
@@ -169,9 +170,6 @@
                         </div>
 
                     </div>
-
-                    <input type='hidden' id='topic_tags' name='topic_tags' value=''>
-                    <input type='hidden' name='_csrf' value='dXUr15yK-znpUuQtRah8inniZ2cMLySWDs0c'>
                 </fieldset>
             </form>
         </div>
@@ -197,6 +195,12 @@
 
     function CheckPost ()
     {
+        var sectionId = $("#sectionId option:selected").val();
+        if(sectionId == ""){
+            alert("请选择版块！");
+            publishForm.sectionId.focus();
+            return false;
+        }
         if (publishForm.title.value == "")
         {
             alert("请填写标题！");

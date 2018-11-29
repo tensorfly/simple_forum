@@ -14,6 +14,10 @@ public class Topic {
     private String content;
     //发帖人ID
     private String accountId;
+    //版块Id
+    private int sectionId;
+    //状态 0：审核通过；1：审核不通过；2：默认待审核
+    private int state;
     //创建时间
     private String createtime;
     //更新时间
@@ -25,6 +29,14 @@ public class Topic {
 
     public void setTopicId(int topicId) {
         this.topicId = topicId;
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
     }
 
     public String getTitle() {
@@ -49,6 +61,14 @@ public class Topic {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getCreatetime() {

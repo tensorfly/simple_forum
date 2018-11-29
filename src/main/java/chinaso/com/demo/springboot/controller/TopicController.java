@@ -2,8 +2,10 @@ package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
 import chinaso.com.demo.springboot.entity.Reply;
+import chinaso.com.demo.springboot.entity.Section;
 import chinaso.com.demo.springboot.entity.Topic;
 import chinaso.com.demo.springboot.service.ReplyService;
+import chinaso.com.demo.springboot.service.SectionService;
 import chinaso.com.demo.springboot.service.TopicService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +31,9 @@ public class TopicController {
     @Autowired
     ReplyService replyService;
 
+    @Autowired
+    SectionService sectionService;
+
     /**
      * @Description:加载帖子列表
      * @param:title
@@ -37,11 +42,16 @@ public class TopicController {
     @RequestMapping("/list")
     public String listTopic(
             @RequestParam(value = "title", required = false,defaultValue = "") String title,
+            //sectionId为0表示查询全部
+            @RequestParam(value = "sectionId", required = false,defaultValue = "0") int sectionId,
+            //默认查询审核通过的帖子
+            @RequestParam(value = "state", defaultValue = "0") int state,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "30") Integer pageSize,
             Model model) {
 
-        PageInfo<Topic> pageInfo= topicService.findAll(title,null,pageNum,pageSize);
+        PageInfo<Topic> pageInfo= topicService.findAll(title,sectionId,null,pageNum,pageSize,state);
+        List<Section> sections = sectionService.getSections();
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
         //获得一页显示的条数
@@ -54,6 +64,8 @@ public class TopicController {
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("title",title);
         model.addAttribute("topics", pageInfo.getList());
+        model.addAttribute("sections", sections);
+        model.addAttribute("sectionId", sectionId);
         return "index_new";
     }
 
@@ -66,10 +78,12 @@ public class TopicController {
     public String myListTopic(
             @RequestParam(value = "accountId", required = true) String accountId,
             @RequestParam(value = "title", required = false,defaultValue = "") String title,
+            //默认查询审核通过的帖子
+            @RequestParam(value = "state", defaultValue = "0") int state,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             Model model) {
-        PageInfo<Topic> pageInfo= topicService.findAll(title,accountId,pageNum,pageSize);
+        PageInfo<Topic> pageInfo= topicService.findAll(title,0,accountId,pageNum,pageSize,state);
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
         //获得一页显示的条数
@@ -98,8 +112,10 @@ public class TopicController {
         if(accountId == null || StringUtils.isEmpty(accountId)){
             flag = false;
         }
+        List<Section> sections = sectionService.getSections();
         model.addAttribute("flag",flag);
         model.addAttribute("accountId",accountId);
+        model.addAttribute("sections", sections);
         return "topic/publish_new";
     }
 
@@ -112,6 +128,8 @@ public class TopicController {
     public String save(Topic topic, Model model) {
         topic.setCreatetime(DateAndTimeUtil.getStringCurrentTime());
         topic.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
+        //默认待审核
+        topic.setState(2);
         int count = topicService.addTopic(topic);
         return "redirect:/";
     }

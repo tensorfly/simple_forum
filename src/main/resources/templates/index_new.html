@@ -82,7 +82,7 @@
                 <li><a href="#" target="">关于</a></li>-->
 
 
-                <li><a href="/toRegister">注册</a></li>
+                <li><a href="/toRegister" th:if="${session.user} == null">注册</a></li>
                 <li><a  href="/toLogin" th:if="${session.user} == null">登录</a></li>
                 <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
                 <li><a  href="/loginOut" th:if="${session.user} != null">退出</a></li>
@@ -102,19 +102,30 @@
 <div id='main'>
   <div id="content">
     <div class="panel">
-      <div class="header">
+      <div class="header" >
 
-        <a href="/"
-           class="topic-tab current-tab">全部</a>
+          <a href="/" th:if="${sectionId eq 0}"
+             class="topic-tab current-tab" >全部</a>
+          <a href="/" th:if="${ not (sectionId eq 0)}"
+             class="topic-tab" >全部</a>
+          <span th:each="section,iterStat : ${sections}">
+          <a th:href="@{${'/topic/list'}(sectionId=${section.sectionId},title=${title})}"
+             th:if="${section.sectionId eq sectionId}" class="topic-tab current-tab" th:text="${section.title}"></a>
 
-        <a href="#"
-           class="topic-tab ">精华</a>
+              <a th:href="@{${'/topic/list'}(sectionId=${section.sectionId},title=${title})}"
+                 th:if="${ not (section.sectionId eq sectionId)}" class="topic-tab" th:text="${section.title}"></a>
+          </span>
+          <!--  <a href="/"
+               class="topic-tab current-tab">全部</a>
 
-        <a href="#"
-           class="topic-tab ">分享</a>
+            <a href="#"
+               class="topic-tab ">精华</a>
 
-        <a href="#"
-           class="topic-tab ">问答</a>
+            <a href="#"
+               class="topic-tab ">分享</a>
+
+            <a href="#"
+               class="topic-tab ">问答</a>-->
 
       </div>
 
@@ -123,7 +134,7 @@
             <div class="cell" th:each="topic,iterStat : ${topics}">
                 <!--<span class="user_avatar pull-left" th:text="${iterStat.index+1}"></span>-->
                 <a class="user_avatar pull-left" href="#">
-                    <img src="https://avatars0.githubusercontent.com/u/4279697?v=4&s=120"
+                    <img th:src="@{/image/header.jpg}"
                          th:title="${topic.accountId}"
                     />
                 </a>
@@ -153,18 +164,18 @@
         <div class='pagination' th:if=" ${totalPages} gt '1'" th:attr="current_page=${pageNum}">
           <ul>
               <li th:if="${not isFirstPage}">
-                  <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title})}">«</a>
+                  <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title},sectionId=${sectionId})}">«</a>
               </li>
 
               <li  th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
                   <a th:if="${pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}">
                   </a>
 
-                  <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title})}" th:text="${pageNo}">
+                  <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title},sectionId=${sectionId})}" th:text="${pageNo}">
                   </a>
               </li>
               <li th:if="${not isLastPage}">
-                  <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title})}">»</a>
+                  <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title},sectionId=${sectionId})}">»</a>
               </li>
           </ul>
         </div>

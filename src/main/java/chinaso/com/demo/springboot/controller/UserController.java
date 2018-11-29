@@ -30,7 +30,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * @Description:进入登陆页面
+     * @Description:进入普通用户登陆页面
      * @param:
      * @return:String
      */
@@ -192,6 +192,12 @@ public class UserController {
         model.addAttribute("message",message);
         return "activation";
     }
+
+
+    /**
+     * 忘记密码--找回密码
+     */
+
 
 }
 
