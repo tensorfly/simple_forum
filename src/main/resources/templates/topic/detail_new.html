@@ -71,13 +71,6 @@
 
             <ul class='nav pull-right'>
                 <li><a href="/">首页</a></li>
-
-                <!--<li><a href="#">新手入门</a></li>
-                <li><a href="#">API</a></li>
-
-                <li><a href="#" target="">关于</a></li>-->
-
-
                 <li><a href="/toRegister">注册</a></li>
                 <li><a  href="/toLogin" th:if="${session.user} == null">登录</a></li>
                 <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
@@ -96,24 +89,6 @@
 <!--公共头结束-->
 
 <div id='main'>
-    <!--<div id='sidebar'>
-        <div class='panel'>
-            <div class='header'>
-                <span class='col_fade'>关于</span>
-            </div>
-            <div class='inner'>
-                <p>Chinaso：AI专业社区论坛</p>
-
-                <p>在这里你可以：</p>
-                <ul>
-                    <li>向别人提出你遇到的问题</li>
-                    <li>帮助遇到问题的人</li>
-                    <li>分享自己的知识</li>
-                    <li>和其它人一起进步</li>
-                </ul>
-            </div>
-        </div>
-    </div>-->
 
     <div id='content'>
         <div class='panel'>
@@ -151,8 +126,7 @@
             </div>
 
             <div class="inner topic">
-            <div class="topic_content">
-                  <span th:text="'内容：' + ${topic.content}"></span>
+            <div class="topic_content" th:utext="${topic.content}">
             </div>
             </div>
         </div>
@@ -212,14 +186,7 @@
 
 
 <script>
-    // google analytics
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script', "https://www.google-analytics.com/analytics.js",'ga');
 
-    ga('create', 'UA-41753901-5', 'auto');
-    ga('send', 'pageview');
     function CheckPost ()
     {
         if (replyForm.content.value == "")
@@ -232,11 +199,6 @@
     }
 </script>
 
-
-
-<div style="display:none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1254020586&web_id=1254020586" language="JavaScript"></script>
-</div>
 
 
 </body>
