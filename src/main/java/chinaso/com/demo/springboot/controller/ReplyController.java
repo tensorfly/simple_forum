@@ -57,7 +57,7 @@ public class ReplyController {
             Model model) {
 
         PageInfo<Integer> pageInfo =  replyService.getTopicIds(accountId,pageNum,pageSize);
-        List<Topic> topics = new ArrayList<Topic>();;
+        List<Topic> topics = new ArrayList<Topic>();
         for(int i=0;i<pageInfo.getList().size();i++){
             Topic topic = topicService.getTopic(pageInfo.getList().get(i));
             topics.add(topic);

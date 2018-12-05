@@ -199,10 +199,29 @@
     //这里的id为<div id="editor"中的id.
     var editor = new E('#editor');
     // 配置服务器端地址,也就是controller的请求路径，不带项目路径，前面没有/
-    editor.customConfig.uploadImgServer = 'commodity/upload/editor/img';
+    editor.customConfig.uploadImgServer = '/commodity/upload/editor/img';
     //配置属性名称，绑定请求的图片数据
     //controller会用到，可以随便设置，但是一定要与controller一致
     editor.customConfig.uploadFileName = 'img';
+    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //自定义上传图片事件
+    editor.customConfig.uploadImgHooks = {
+        before : function(xhr, editor, files) {
+
+        },
+        success : function(xhr, editor, result) {
+            console.log("上传成功");
+        },
+        fail : function(xhr, editor, result) {
+            console.log("上传失败,原因是"+result);
+        },
+        error : function(xhr, editor) {
+            console.log("上传出错");
+        },
+        timeout : function(xhr, editor) {
+            console.log("上传超时");
+        }
+    }
     //创建编辑器
     editor.create();
 
