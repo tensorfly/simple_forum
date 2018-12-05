@@ -174,7 +174,7 @@
                     batchValue = '<a class="batchcheck-pass btn btn-success btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',0)">批量审核通过</a>' +
                         '<a class="batchcheck-not-pass btn btn-danger btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',1)">批量审核不通过</a>' +
                         '<a class="batchDelete btn btn-primary btn-sm" href="javascript:;" onclick="batchDeleteTopic('+sectionId+')">批量删除</a>';
-                    $(".batch").append(batchValue);
+                    $(".batch").html(batchValue);
                 }
             }
         });
