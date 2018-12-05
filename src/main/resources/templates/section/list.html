@@ -136,6 +136,7 @@
                     var list = resp.data.list;
                     //获取数据成功后动态添加到页面中
                     var textValue = '';
+                    var batchValue = '';
                     for(var i = 0;i < list.length;i ++) {
                         textValue += '<tr>' +
                                         '<td><input type="checkbox" name="IDCheck" value='+list[i].topicId+' class="acb"></td>' +
@@ -170,7 +171,7 @@
                             getTopics(sectionId,page);
                         }
                     });
-                    var batchValue = '<a class="batchcheck-pass btn btn-success btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',0)">批量审核通过</a>' +
+                    batchValue = '<a class="batchcheck-pass btn btn-success btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',0)">批量审核通过</a>' +
                         '<a class="batchcheck-not-pass btn btn-danger btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',1)">批量审核不通过</a>' +
                         '<a class="batchDelete btn btn-primary btn-sm" href="javascript:;" onclick="batchDeleteTopic('+sectionId+')">批量删除</a>';
                     $(".batch").append(batchValue);
