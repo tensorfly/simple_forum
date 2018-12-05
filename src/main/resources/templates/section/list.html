@@ -2,54 +2,92 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>版块管理页面</title>
-    <link th:href="@{/common.css}" rel="stylesheet" type="text/css" />
-    <script src="http://n2.static.pg0.cn/www/common/base/js/jquery-1.9.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>版块管理</title>
+    <link rel="stylesheet" th:href="@{/css/nomalize.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/list.css}">
 </head>
 <body>
-<table>
-    <caption>版块列表数据</caption>
-    <thead class="header">
-    <tr>
-        <th>序号</th>
-        <th>版块名称</th>
-        <th>创建时间</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody class="section-list">
+    <div class="main">
+        <!-- <table>
+            <caption>版块列表数据</caption>
+            <thead class="header">
+            <tr>
+                <th>序号</th>
+                <th>版块名称</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="section-list">
 
-    </tbody>
-</table>
+            </tbody>
+        </table> -->
 
-<div style="height: 80px"></div>
+        <div class="navigation">
+            <ul class="nav nav-pills" id="nav">
+              <!-- <li role="presentation" class="active">
+                <a class="list-topics" href="javascript:;" data-id="33" onclick="getTopics('33',1)">精华</a>
+              </li>
+              <li role="presentation">
+                <a class="list-topics" href="javascript:;" data-id="34" onclick="getTopics('34',1)">分享</a>
+              </li>
+              <li role="presentation">
+                <a class="list-topics" href="javascript:;" data-id="35" onclick="getTopics('35',1)">问答</a>
+              </li> -->
+            </ul>
+        </div>
+        <div class="topic-data">
+        <table>
+            <caption>贴子列表数据</caption>
+            <thead class="header">
+            <tr>
+                <th width="30px"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" >
+                </th>
+                <th width="30px">序号</th>
+                <th width="300px">标题</th>
+                <th width="180px">创建时间</th>
+                <th width="100px">审核状态</th>
+                <th width="200px">操作</th>
+            </tr>
+            </thead>
+            <tbody class="topic-list">
 
-<div class="topic-data">
-<table>
-    <caption>贴子列表数据</caption>
-    <thead class="header">
-    <tr>
-        <th width="30px"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" >
-        </th>
-        <th width="30px">序号</th>
-        <th width="300px">标题</th>
-        <th width="180px">创建时间</th>
-        <th width="100px">审核状态</th>
-        <th width="200px">操作</th>
-    </tr>
-    </thead>
-    <tbody class="topic-list">
+            </tbody>
+        </table>
+        </div>
 
-    </tbody>
-</table>
-</div>
+        <div class="batch"></div>
 
-<div class="page"></div>
-
-<div class="batch"></div>
-
+        <div class="page">
+            <ul class="pagination">
+            </ul>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提示</h4>
+              </div>
+              <div class="modal-body">
+                <p>确认您的选择吗？</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary btn-ok">确定</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
 </body>
-<script language="javascript">
+
+<script type="text/javascript" src="@{/js/jquery.min.js}"></script>
+<script src="@{/js/bootstrap.min.js}"></script>
+<script src="@{/js/bootstrap-paginator.min.js}"></script>
+<script>
 
     $(function () {
         var listUrl = '/admin/section/list';
@@ -62,35 +100,44 @@
                 if (flag==0) {
                     var list = resp.data;
                     //获取数据成功后动态添加到页面中
-                    var textValue = '';
-                    for (var i = 0; i < list.length; i++) {
-                        var number = i+1;
-                        textValue += "<tr><td>" + number + "</td>"
-                        /*textValue += "<tr><td>" + list[i].sectionId + "</td>"*/
-                        textValue += "<td><a class='list-topics' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"getTopics('"+list[i].sectionId+"',1)\">" + list[i].title + "</td>"
-                        textValue += "<td>" + formatDate(list[i].createtime) + "</td>"
-                        textValue += "<td><a class='delete' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"deleteSection('"+list[i].sectionId+"')\">删除</a></td>"
-                        textValue += "</tr>";
+                    // var textValue = '';
+                    // for (var i = 0; i < list.length; i++) {
+                    //     var number = i+1;
+                    //     textValue += "<tr><td>" + number + "</td>"
+                    //     /*textValue += "<tr><td>" + list[i].sectionId + "</td>"*/
+                    //     textValue += "<td><a class='list-topics' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"getTopics('"+list[i].sectionId+"',1)\">" + list[i].title + "</td>"
+                    //     textValue += "<td>" + formatDate(list[i].createtime) + "</td>"
+                    //     textValue += "<td><a class='delete' href='javascript:;' data-id='"+list[i].sectionId+"' onclick=\"deleteSection('"+list[i].sectionId+"')\">删除</a></td>"
+                    //     textValue += "</tr>";
+                    // }
+                    // $('.section-list').append(textValue);
+                    var textValue = "";
+                    for(var i = 0;i < list.length; i ++) {
+                        textValue += '<li role="presentation" class='+(i==0?"active":"")+'>'
+                                        +'<a class="list-topics" href="javascript:;" data-id='+list[i].sectionId+' onclick="getTopics('+list[i].sectionId+',1)">'+list[i].title+'</a>'
+                                    +'</li>';
                     }
-                    $('.section-list').append(textValue);
+                    $("#nav").append(textValue);
                 }
             }
         });
     });
 
-
-
     function deleteSection(sectionId){
         var deleteUrl = '/admin/section/delete/'+sectionId;
-        $.ajax({
-            url:deleteUrl,
-            type:'post',
-            dataType:'json',
-            success:function(resp){
-                alert(resp.msg);
-            }
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
+            $.ajax({
+                url:deleteUrl,
+                type:'post',
+                dataType:'json',
+                success:function(resp){
+                    alert(resp.msg);
+                    window.location.reload();
+                }
+            });
         });
-        window.location.reload();
     }
 
     function getTopics(sectionId,pageNo){
@@ -106,59 +153,52 @@
                     var list = resp.data.list;
                     //获取数据成功后动态添加到页面中
                     var textValue = '';
-                    for (var i = 0; i < list.length; i++) {
-                        var number = i+1;
-                        textValue += "<tr>";
-                        textValue += "<td><input type='checkbox' name='IDCheck' value='"+ list[i].topicId +"' class='acb' /></td>";
-                        textValue += "<td>" + number + "</td>"
-                        /*textValue += "<tr><td>" + list[i].topicId + "</td>"*/
-                        textValue += "<td>" + list[i].title + "</td>"
-                        textValue += "<td>" + list[i].createtime.substring(0,19) + "</td>"
-                        textValue += "<td>" + formateState(list[i].state) + "</td>";
-                        textValue += "<td>";
-                        if(list[i].state==2){
-                            textValue += "<a class='check-pass' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"check('"+sectionId+"','"+list[i].topicId+"',0,'"+pageNo+"')\">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-                            textValue += "<a class='check-not-pass' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"check('"+sectionId+"','"+list[i].topicId+"',1,'"+pageNo+"')\">不通过</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-                        }
-                        textValue += "<a class='delete' href='javascript:;' data-id='"+list[i].topicId+"' onclick=\"deleteTopic('"+sectionId+"','"+list[i].topicId+"')\">删除</a></td>";
-                        textValue += "</tr>";
+                    for(var i = 0;i < list.length;i ++) {
+                        textValue += '<tr>' +
+                                        '<td><input type="checkbox" name="IDCheck" value='+list[i].topicId+' class="acb"></td>' +
+                                        '<td>'+(i+1)+'</td>' +
+                                        '<td>'+list[i].title+'</td>' +
+                                        '<td>'+list[i].createtime.substring(0,19)+'</td>' +
+                                        '<td>'+formateState(list[i].state)+'</td>' +
+                                        '<td>' +
+                                            (list[i].state==2?('<p><a class="check-pass btn btn-success btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',0,'+pageNo+')">通过</a></p>' +
+                                            '<p><a class="check-not-pass btn btn-danger btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',1,'+pageNo+')">不通过</a></p>'):'') +
+                                            '<p><a class="delete btn btn-primary btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="deleteTopic('+sectionId+','+list[i].topicId+')">删除</a></p>' +
+                                        '</td>' +
+                                    '</tr>';
                     }
-                    $('.topic-list').append(textValue);
-                    //分页数据 page
-                    //总页数
+                    $(".topic-list").append(textValue);
                     var totalPage = resp.data.totalPage;
-                    //总数量
-                    var totalCount = resp.data.totalCount;
-                    //是否是首页
-                    var isFirstPage = resp.data.isFirstPage;
-                    //是否有上一页
-                    var hasPreviousPage = resp.data.hasPreviousPage;
-                    //是否有下一页
-                    var hasNextPage = resp.data.hasNextPage;
-                    var pageHtmlValue = "<span>共有" + totalCount + "条记录，当前第" + pageNo + "/" + totalPage + "页</span>&nbsp;&nbsp;&nbsp;&nbsp;";
-                    if(hasPreviousPage){
-                        var prePageNo = Number(pageNo) - 1;
-                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"',1)\">首页</a></span>&nbsp;&nbsp;&nbsp;";
-                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+prePageNo+"')\">上一页</a></span>&nbsp;&nbsp;&nbsp;";
-                    }
-                    if(hasNextPage){
-                        var nextPageNo = Number(pageNo) + 1;
-                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+nextPageNo+"')\">下一页</a></span>&nbsp;&nbsp;&nbsp;";
-                        pageHtmlValue += "<span><a class='list-topics' href='javascript:;' data-id='"+sectionId+"' onclick=\"getTopics('"+sectionId+"','"+totalPage+"')\">尾页</a></span>&nbsp;&nbsp;&nbsp;";
-                    }
-                    $('.page').html(pageHtmlValue);
-
-                    var batchValue = "<span><a class='batchcheck-pass' href='javascript:;' onclick=\"batchCheck('"+sectionId+"','"+pageNo+"',0)\"  >批量审核通过</a></span>&nbsp;&nbsp;&nbsp;<span><a class='batchcheck-not-pass' href='javascript:;' onclick=\"batchCheck('"+sectionId+"','"+pageNo+"',1)\"  >批量审核不通过</a></span>&nbsp;&nbsp;&nbsp;<span><a class='batchDelete' href='javascript:;' onclick=\"batchDeleteTopic('"+sectionId+"')\"  >批量删除</a></span>"
-                    $('.batch').html(batchValue);
+                    $(".pagination").bootstrapPaginator({
+                        bootstrapMajorVersion: 3,
+                        size: "small",
+                        currentPage: pageNo,
+                        numberOfPages: 5,
+                        totalPages: totalPage, 
+                        itemContainerClass: function (type, page, current) {
+                            switch(type) {
+                                case "page":
+                                    return (page === current) ? "active" : "";
+                            }  
+                        },
+                        shouldShowPage: true,
+                        useBootstrapTooltip: true,
+                        onPageClicked: function(event, originalEvent, type, page) {
+                            getTopics(sectionId,page);
+                        }
+                    });
+                    var batchValue = '<a class="batchcheck-pass btn btn-success btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',0)">批量审核通过</a>' +
+                        '<a class="batchcheck-not-pass btn btn-danger btn-sm" href="javascript:;" onclick="batchCheck('+sectionId+','+pageNo+',1)">批量审核不通过</a>' +
+                        '<a class="batchDelete btn btn-primary btn-sm" href="javascript:;" onclick="batchDeleteTopic('+sectionId+')">批量删除</a>';
+                    $(".batch").append(batchValue);
                 }
             }
         });
     }
 
-
-/*
- * 是否全选
- */
+    /*
+     * 是否全选
+     */
     function selectOrClearAllCheckbox(obj) {
         var checkStatus = $(obj).is(':checked');
         if (checkStatus) {
@@ -204,22 +244,25 @@
     //审核是否通过
     function check(sectionId,topicId,state,pageNo) {
         var checkUrl = '/admin/topic/check/'+topicId+"?state="+state;
-        $.ajax({
-            url:checkUrl,
-            type:'post',
-            dataType:'json',
-            success:function(resp){
-                var flag = resp.status;
-                if (flag==0) {
-                    alert(resp.msg);
-                    getTopics(sectionId,pageNo);
-                }else {
-                    alert(resp.msg);
-                }
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
+            $.ajax({
+                url:checkUrl,
+                type:'post',
+                dataType:'json',
+                success:function(resp){
+                    var flag = resp.status;
+                    if (flag==0) {
+                        alert(resp.msg);
+                        getTopics(sectionId,pageNo);
+                    }else {
+                        alert(resp.msg);
+                    }
 
-            }
+                }
+            });
         });
-        
     }
 
     //批量审核是否通过
@@ -231,7 +274,9 @@
             alert("至少选择一项审核！");
             return;
         }
-        if (confirm("确定审核选中的帖子？")) {
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
             var topicIdList = new Array();
             $("input[name='IDCheck']:checked").each(function(){
                 topicIdList.push($(this).val());
@@ -253,25 +298,28 @@
                     alert("审核失败！")
                 }
             });
-        }
+        });
     }
-
 
     function deleteTopic(sectionId,topicId){
         var deleteUrl = '/admin/topic/delete/'+topicId;
-        $.ajax({
-            url:deleteUrl,
-            type:'post',
-            dataType:'json',
-            success:function(resp){
-                var flag = resp.status;
-                if (flag==0) {
-                    alert(resp.msg);
-                    getTopics(sectionId,1);
-                }else {
-                    alert(resp.msg);
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
+            $.ajax({
+                url:deleteUrl,
+                type:'post',
+                dataType:'json',
+                success:function(resp){
+                    var flag = resp.status;
+                    if (flag==0) {
+                        alert(resp.msg);
+                        getTopics(sectionId,1);
+                    }else {
+                        alert(resp.msg);
+                    }
                 }
-            }
+            });
         });
     }
 
@@ -283,7 +331,9 @@
             alert("至少选择一项删除！");
             return;
         }
-        if (confirm("确定删除选中的帖子？")) {
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
             var topicIdList = new Array();
             $("input[name='IDCheck']:checked").each(function(){
                 topicIdList.push($(this).val());
@@ -305,7 +355,18 @@
                     alert("删除失败！")
                 }
             });
-        }
+        });
     }
 </script>
+<script>
+    $("#nav li").each(function () {
+        $(this).off("click").on("click",function () {
+            $(this).siblings().removeClass("active");
+            $(this).addClass("active");
+        });
+    });
+    var loaded_topic_id = $("#nav li a")[0].getAttribute("data-id");
+    getTopics(loaded_topic_id,1);
+</script>
+
 </html>

@@ -1,0 +1,23 @@
+/*
+* @Author: lenovo
+* @Date:   2018-12-03 10:29:23
+* @Last Modified by:   cuikai
+* @Last Modified time: 2018-12-05 11:04:09
+*/
+.main {
+	width: 95%;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+.main .table > tbody > tr > td {
+	vertical-align: middle;
+}
+.topic-data,.batch {
+	margin-top: 20px;
+}
+.topic-data,.batch a {
+	margin-left: 3px;
+}
+.page {
+	text-align: center;
+}

@@ -1,0 +1,25 @@
+/*
+* @Author: lenovo
+* @Date:   2018-12-05 13:39:54
+* @Last Modified by:   lenovo
+* @Last Modified time: 2018-12-05 14:29:30
+*/
+body {
+    background: #74bed0;
+}
+.main {
+	width: 80%;
+    margin: 0 auto;
+    padding-top: 200px;
+}
+.form-info {
+	margin: 40px auto;
+    width: 75%;
+}
+.main h2,
+.login-btn {
+	text-align: center;
+}
+#login {
+	width: 160px;
+}
