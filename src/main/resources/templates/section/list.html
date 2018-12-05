@@ -93,6 +93,14 @@
                                     +'</li>';
                     }
                     $("#nav").append(textValue);
+                    $("#nav li").each(function () {
+                        $(this).off("click").on("click",function () {
+                            $(this).siblings().removeClass("active");
+                            $(this).addClass("active");
+                        });
+                    });
+                    var loaded_topic_id = $("#nav li a")[0].getAttribute("data-id");
+                    getTopics(loaded_topic_id,1);
                 }
             }
         });
@@ -332,16 +340,6 @@
             });
         });
     }
-</script>
-<script>
-    $("#nav li").each(function () {
-        $(this).off("click").on("click",function () {
-            $(this).siblings().removeClass("active");
-            $(this).addClass("active");
-        });
-    });
-    var loaded_topic_id = $("#nav li a")[0].getAttribute("data-id");
-    getTopics(loaded_topic_id,1);
 </script>
 
 </html>
