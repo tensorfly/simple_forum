@@ -59,6 +59,11 @@ public class AdminController {
         return "section/list";
     }
 
+    @RequestMapping("/topic/listPage")
+    public String topicListPage(Model model){
+        return "topic/list";
+    }
+
     @RequestMapping(value = "/section/list", method = {
             RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
