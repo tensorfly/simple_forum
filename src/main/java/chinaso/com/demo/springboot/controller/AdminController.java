@@ -88,6 +88,39 @@ public class AdminController {
         return result;
     }
 
+
+    //新增版块
+    @RequestMapping(value = "/section/add", method = {
+            RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String addSection(
+            @RequestParam(value = "title",required = true) String title,
+            @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
+            HttpServletRequest request, HttpServletResponse response){
+        String result = sectionService.addSection(title);
+        if (jsonpcallback != null) {
+            return jsonpcallback + "(" + result + ")";
+        }
+        return result;
+    }
+
+    //编辑版块
+    @RequestMapping(value = "/section/edit", method = {
+            RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String editSection(
+            @RequestParam(value = "sectionId",required = true) int sectionId,
+            @RequestParam(value = "title",required = true) String title,
+            @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
+            HttpServletRequest request, HttpServletResponse response){
+        String result = sectionService.editSection(sectionId,title);
+        if (jsonpcallback != null) {
+            return jsonpcallback + "(" + result + ")";
+        }
+        return result;
+    }
+
+
     //单条删除
     @RequestMapping(value = "/topic/delete/{topicId}", method = {
             RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})

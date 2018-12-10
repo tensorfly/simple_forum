@@ -1,10 +1,9 @@
 package chinaso.com.demo.springboot.mapper;
 
 import chinaso.com.demo.springboot.entity.Section;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import chinaso.com.demo.springboot.entity.Topic;
+import chinaso.com.demo.springboot.entity.User;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,9 +19,22 @@ public interface SectionMapper {
     @Select("SELECT * FROM section order by createtime desc")
     List<Section> getSections();
 
+    @Insert("INSERT INTO section(title,createtime,updatetime) VALUES(#{title},#{createtime}, #{updatetime})")
+    @Options(useGeneratedKeys=true, keyProperty="sectionId", keyColumn="sectionId")
+    void addSection(Section section);
+
     @Delete("delete from section where sectionId=#{sectionId}")
     void deleteBySectionId(@Param("sectionId") int sectionId);
 
     @Delete("delete from section where sectionId=#{sectionId}")
     void deleteBySectionIds(int[] sectionIds);
+
+    @Select("SELECT * FROM section where title=#{title}")
+    List<Section> getSectionsByTitlle(@Param("title") String title);
+
+    @Select("SELECT * FROM section where sectionId=#{sectionId}")
+    Section getSectionsBySectionId(@Param("sectId") int  sectionId);
+
+    @Update("UPDATE section SET title=#{title} WHERE sectionId =#{sectionId}")
+    void updateSection(@Param("sectionId") int  sectionId,@Param("title") String title);
 }

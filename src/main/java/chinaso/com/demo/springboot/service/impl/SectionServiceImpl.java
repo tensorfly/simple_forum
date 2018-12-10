@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,5 +58,31 @@ public class SectionServiceImpl implements SectionService {
             logger.error("删除失败", e);
             return JSON.toJSONString(commonUtil.result("200", "删除失败", null));
         }
+    }
+
+    @Override
+    public String addSection(String title) {
+        try {
+            List<Section> sections = sectionMapper.getSectionsByTitlle(title);
+            if(sections.size()>0){
+                return JSON.toJSONString(commonUtil.result("50", "版块名称不允许重复", null));
+            }
+            Date now = new Date();
+            Section section = new Section();
+            section.setTitle(title);
+            section.setCreatetime(now);
+            section.setUpdatetime(now);
+            sectionMapper.addSection(section);
+            return JSON.toJSONString(commonUtil.result("0", "新增版块成功", section));
+        }catch (Exception e) {
+            logger.error("新增版块失败", e);
+            return JSON.toJSONString(commonUtil.result("200", "新增版块失败", null));
+        }
+    }
+
+    @Override
+    public String editSection(int sectionId, String title) {
+       sectionMapper.updateSection(sectionId,title);
+       return JSON.toJSONString(commonUtil.result("0", "更新版块成功", null));
     }
 }

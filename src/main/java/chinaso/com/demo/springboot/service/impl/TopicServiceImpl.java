@@ -107,7 +107,6 @@ public class TopicServiceImpl implements TopicService {
             PageHelper.startPage(pageNo, pageSize);
             List<Topic> topics = topicMapper.getAllTopic("", null, sectionId, state);
             Page page = null;
-            if (topics.size() > 0) {
                 PageInfo pageInfo = new PageInfo<>(topics);
                 page = new Page();
                 page.setList(pageInfo.getList());
@@ -117,7 +116,6 @@ public class TopicServiceImpl implements TopicService {
                 page.setTotalPage(pageInfo.getPages());
                 page.setHasPreviousPage(pageInfo.isHasPreviousPage());
                 page.setHasNextPage(pageInfo.isHasNextPage());
-            }
             return JSON.toJSONString(commonUtil.result("0", "获取版块列表页数据成功", page));
         } catch (Exception e) {
             logger.error("获取版块id:" + sectionId + "列表页数据失败:", e);

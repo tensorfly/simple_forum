@@ -17,4 +17,8 @@ public interface SectionService {
 
     String deleteBySectionId(int sectionId);
 
+    String addSection(String title);
+
+    String editSection(int sectionId,String title);
+
 }
