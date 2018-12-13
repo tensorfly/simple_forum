@@ -133,24 +133,24 @@
         <div id="topic_list">
             <div class="cell" th:each="topic,iterStat : ${topics}">
                 <!--<span class="user_avatar pull-left" th:text="${iterStat.index+1}"></span>-->
-                <a class="user_avatar pull-left" href="#">
+                <!-- <a class="user_avatar pull-left" href="#">
                     <img th:src="@{/image/header.jpg}"
                          th:title="${topic.accountId}"
                     />
-                </a>
+                </a> -->
 
-                <span class="reply_count pull-left">
-    <span class="count_of_replies" title="回复数">
-      85
-    </span>
-    <span class="count_seperator">/</span>
-    <span class="count_of_visits" title='点击数'>
-      14770
-    </span>
-  </span>
-                <span class='last_time pull-right'>
-      <span class="last_active_time" th:text="${#strings.substring(topic.createtime,0,19)}"></span>
-</span>
+                <!-- <span class="reply_count pull-left">
+                  <span class="count_of_replies" title="回复数">
+                    85
+                  </span>
+                  <span class="count_seperator">/</span>
+                  <span class="count_of_visits" title='点击数'>
+                    14770
+                  </span>
+                </span> -->
+                <span class='last_time pull-left'>
+                  <span class="last_active_time" th:text="${topic.createtime}"></span>
+                </span>
                     <div class="topic_title_wrapper">
 
   <a class='topic_title' th:href="@{/topic/detail(topicId=${topic.topicId})}" th:text="${topic.title}">

@@ -16,6 +16,9 @@
         <div class="content">
             <div class="navigation">
                 <ul class="nav nav-pills" id="nav">
+                    <li role="presentation" class="active">
+                        <a class="list-topics" href="javascript:;" data-id='0' onclick="getTopics(0,1)">全部</a>
+                    </li>
                 </ul>
             </div>
             <div class="topic-data">
@@ -85,7 +88,7 @@
                     //获取数据成功后动态添加到页面中
                     var textValue = "";
                     for(var i = 0;i < list.length; i ++) {
-                        textValue += '<li role="presentation" class='+(i==0?"active":"")+'>'
+                        textValue += '<li role="presentation">'
                                         +'<a class="list-topics" href="javascript:;" data-id='+list[i].sectionId+' onclick="getTopics('+list[i].sectionId+',1)">'+list[i].title+'</a>'
                                     +'</li>';
                     }
@@ -149,8 +152,8 @@
                                         '<td>'+list[i].createtime.substring(0,19)+'</td>' +
                                         '<td>'+formateState(list[i].state)+'</td>' +
                                         '<td>' +
-                                            (list[i].state==2?('<p><a class="check-pass btn btn-success btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',0,'+pageNo+')">通过</a></p>' +
-                                            '<p><a class="check-not-pass btn btn-danger btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',1,'+pageNo+')">不通过</a></p>'):'') +
+                                            (list[i].state==1?('<p><a class="check-pass btn btn-success btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',0,'+pageNo+')">通过</a></p>'):'') +
+                                            (list[i].state==0?('<p><a class="check-not-pass btn btn-danger btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',1,'+pageNo+')">不通过</a></p>'):'') +
                                             '<p><a class="delete btn btn-primary btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="deleteTopic('+sectionId+','+list[i].topicId+')">删除</a></p>' +
                                         '</td>' +
                                     '</tr>';
