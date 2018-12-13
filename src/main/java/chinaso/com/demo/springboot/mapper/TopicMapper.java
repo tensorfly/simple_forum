@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Mapper
 public interface TopicMapper {
-    @Select("SELECT * FROM topic WHERE topicId = #{topicId}")
+    @Select("SELECT a.*,b.title as sectionName FROM topic a,section b WHERE a.sectionId =b.sectionId and  a.topicId = #{topicId}")
     @Results({
             @Result(property = "topicId",  column = "topicId"),
             @Result(property = "title", column = "title"),

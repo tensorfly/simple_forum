@@ -103,7 +103,7 @@
 
                 </div>
                 <div class="changes">
-        <span th:text="'发布于  ' + ${#strings.substring(topic.createtime,0,19)}">
+        <span th:text="'发布于  ' + ${topic.createtime}">
         </span>
                     <span>
           作者 <a href="#" th:text="${topic.accountId}"></a>
@@ -113,7 +113,7 @@
         </span>
 
 
-                    <span> 来自 问答</span>
+                    <span th:text="'来自'+ ${topic.sectionName} "> 来自 问答</span>
 
                 </div>
 
@@ -142,7 +142,7 @@
                             <span th:text="${iterStat.index+1} + '楼：'"></span>
                             <span th:text="${reply.accountId}"></span>
                             <span th:text="${reply.content}"></span>
-                            <span class="last_active_time" th:text="${#strings.substring(reply.createtime,0,19)}"></span>
+                            <span class="last_active_time" th:text="${reply.createtime}"></span>
                         </li>
                     </ul>
                 </nav>
