@@ -1,17 +1,21 @@
 package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
+import chinaso.com.demo.springboot.Util.RelativeDateFormat;
 import chinaso.com.demo.springboot.entity.Reply;
 import chinaso.com.demo.springboot.entity.Topic;
 import chinaso.com.demo.springboot.service.ReplyService;
 import chinaso.com.demo.springboot.service.TopicService;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/reply")
 public class ReplyController {
+    private static Logger logger = LoggerFactory.getLogger(TopicController.class);
     @Autowired
     ReplyService replyService;
 
@@ -38,8 +43,20 @@ public class ReplyController {
         reply.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
         int count = replyService.addReply(reply);
         Topic topic = topicService.getTopic(reply.getTopicId());
-        model.addAttribute("topic",topic);
         List<Reply> replys = replyService.findAllByTopicId(reply.getTopicId());
+        try {
+            if(null != topic){
+                String topicTime = RelativeDateFormat.format(topic.getCreatetime());
+                topic.setCreatetime(topicTime);
+            }
+            for(int i=0;i<replys.size();i++){
+                String time =RelativeDateFormat.format(replys.get(i).getCreatetime());
+                replys.get(i).setCreatetime(time);
+            }
+        }catch (ParseException e){
+            logger.error("时间转换异常",e);
+        }
+        model.addAttribute("topic",topic);
         model.addAttribute("replys",replys);
         return "topic/detail_new";
     }

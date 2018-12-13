@@ -1,6 +1,7 @@
 package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
+import chinaso.com.demo.springboot.Util.RelativeDateFormat;
 import chinaso.com.demo.springboot.entity.Reply;
 import chinaso.com.demo.springboot.entity.Section;
 import chinaso.com.demo.springboot.entity.Topic;
@@ -9,6 +10,8 @@ import chinaso.com.demo.springboot.service.SectionService;
 import chinaso.com.demo.springboot.service.TopicService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -25,6 +29,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/topic")
 public class TopicController {
+    private static Logger logger = LoggerFactory.getLogger(TopicController.class);
     @Autowired
     TopicService topicService;
 
@@ -40,7 +45,7 @@ public class TopicController {
      * @return:String
      */
     @RequestMapping("/list")
-    public String listTopic(
+    public String listTopic (
             @RequestParam(value = "title", required = false,defaultValue = "") String title,
             //sectionId为0表示查询全部
             @RequestParam(value = "sectionId", required = false,defaultValue = "0") int sectionId,
@@ -51,6 +56,15 @@ public class TopicController {
             Model model) {
 
         PageInfo<Topic> pageInfo= topicService.findAll(title,sectionId,null,pageNum,pageSize,state);
+        List<Topic> topics = pageInfo.getList();
+        try {
+            for(int i=0;i<topics.size();i++){
+                String time =RelativeDateFormat.format(topics.get(i).getCreatetime());
+                topics.get(i).setCreatetime(time);
+            }
+        }catch (ParseException e){
+            logger.error("时间转换异常",e);
+        }
         List<Section> sections = sectionService.getSections();
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
@@ -63,7 +77,7 @@ public class TopicController {
         //是否是最后一页
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("title",title);
-        model.addAttribute("topics", pageInfo.getList());
+        model.addAttribute("topics", topics);
         model.addAttribute("sections", sections);
         model.addAttribute("sectionId", sectionId);
         return "index_new";
@@ -128,8 +142,8 @@ public class TopicController {
     public String save(Topic topic, Model model) {
         topic.setCreatetime(DateAndTimeUtil.getStringCurrentTime());
         topic.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
-        //默认待审核
-        topic.setState(2);
+        //默认审核通过
+        topic.setState(0);
         int count = topicService.addTopic(topic);
         return "redirect:/";
     }
@@ -142,8 +156,20 @@ public class TopicController {
     @RequestMapping("/detail")
     public String save(Model model,int topicId,HttpServletRequest request) {
         Topic topic = topicService.getTopic(topicId);
-        model.addAttribute("topic",topic);
         List<Reply> replys = replyService.findAllByTopicId(topicId);
+        try {
+            if(null != topic){
+                String topicTime = RelativeDateFormat.format(topic.getCreatetime());
+                topic.setCreatetime(topicTime);
+            }
+            for(int i=0;i<replys.size();i++){
+                String time =RelativeDateFormat.format(replys.get(i).getCreatetime());
+                replys.get(i).setCreatetime(time);
+            }
+        }catch (ParseException e){
+            logger.error("时间转换异常",e);
+        }
+        model.addAttribute("topic",topic);
         model.addAttribute("replys",replys);
         return "topic/detail_new";
     }

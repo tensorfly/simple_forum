@@ -16,7 +16,9 @@ public class Topic {
     private String accountId;
     //版块Id
     private int sectionId;
-    //状态 0：审核通过；1：审核不通过；2：默认待审核
+    //版块名称
+    private String sectionName;
+    //状态 0：默认审核通过；1：审核不通过
     private int state;
     //创建时间
     private String createtime;
@@ -85,5 +87,13 @@ public class Topic {
 
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 }
