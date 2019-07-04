@@ -55,6 +55,8 @@ public class TopicController {
             @RequestParam(value = "pageSize", defaultValue = "30") Integer pageSize,
             Model model) {
 
+        //title不为空时查solr，为空的时候查数据库
+
         PageInfo<Topic> pageInfo= topicService.findAll(title,sectionId,null,pageNum,pageSize,state);
         List<Topic> topics = pageInfo.getList();
         try {

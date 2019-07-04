@@ -9,12 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
@@ -197,6 +195,31 @@ public class UserController {
     /**
      * 忘记密码--找回密码
      */
+    @RequestMapping(value = "forgetPassword",method = {
+            RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String forgetPassword(
+            @RequestParam(value = "username",required = true) String username,
+            @RequestParam(value = "email",required = true) String email,
+            @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
+            HttpServletRequest request, HttpServletResponse response){
+        String result = "";
+        if (jsonpcallback != null) {
+            return jsonpcallback + "(" + result + ")";
+        }
+        return result;
+    }
+
+
+    /**
+     * @Description:进入忘记密码页面
+     * @param:
+     * @return:String
+     */
+    @RequestMapping("/toForgetPasswordPage")
+    public String toForgetPasswordPage(){
+        return "forgetPassword";
+    }
 
 
 }
