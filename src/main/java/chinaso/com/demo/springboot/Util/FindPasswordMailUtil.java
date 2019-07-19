@@ -11,13 +11,13 @@ import java.util.Properties;
  * @author fangqian
  * @date 2018/6/28 14:06
  */
-public class MailUtil implements Runnable {
+public class FindPasswordMailUtil implements Runnable {
     private String email;// 收件人邮箱
     private String code;// 激活码
     private String accountId;//账号
     private String url;//服务器地址
 
-    public MailUtil(String email, String code,String accountId,String url) {
+    public FindPasswordMailUtil(String email, String code, String accountId, String url) {
         this.email = email;
         this.code = code;
         this.accountId = accountId;
@@ -42,11 +42,7 @@ public class MailUtil implements Runnable {
             sf.setTrustAllHosts(true);
             properties.put("mail.smtp.ssl.enable", "true");
             properties.put("mail.smtp.ssl.socketFactory", sf);
-            //qq授权码 20190719
-//            成功开启POP3/SMTP服务,在第三方客户端登录时，密码框请输入以下授权码：
-//            zqtdrjgchrqdbjdd
-//            成功开启IMAP/SMTP服务,在第三方客户端登录时，密码框请输入以下授权码：
-//            hmgbnbmzijiqcade
+
 
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
@@ -62,10 +58,10 @@ public class MailUtil implements Runnable {
             // 2.2设置接收人
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             // 2.3设置邮件主题
-            message.setSubject("账号激活");
+            message.setSubject("重置密码");
             // 2.4设置邮件内容
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='"+ url + "/activation/" + accountId + "/"
-                    + code + "'>"+ url + "/activation/" + accountId + "/" + code
+            String content = "<html><head></head><body><h1>这是一封邮件,确认重置密码请点击以下链接</h1><h3><a href='"+ url + "/resetPassword/" + accountId + "/"
+                    + code + "'>"+ url + "/resetPassword/" + accountId + "/" + code
                     + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件

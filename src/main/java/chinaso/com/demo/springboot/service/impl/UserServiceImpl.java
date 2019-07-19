@@ -51,7 +51,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateUserPassword(User user) {
+        userMapper.updatePw(user);
+        return 1;
+    }
+
+    @Override
     public User getUserByCode(String accountId, String code) {
         return userMapper.getUserByCode(accountId,code);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
     }
 }

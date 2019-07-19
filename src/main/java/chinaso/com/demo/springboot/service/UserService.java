@@ -14,8 +14,13 @@ public interface UserService {
     public User getUserByAccountId(String accountId);
     //添加用户
     public int addUser(User user);
-    //添加用户
+    //修改用户状态
     public int updateUserStatus(User user);
 
+    //重置密码
+    public int updateUserPassword(User user);
+
     public User getUserByCode(String accountId,String code);
+
+    public User getUserByEmail(String email);
 }

@@ -57,10 +57,9 @@ public class CommodityController {
     public void serveFile(
             @PathVariable int fid,
             HttpServletRequest request, HttpServletResponse response) {
-//使用字节流读取本地图片
+        //使用字节流读取本地图片
         ServletOutputStream out=null;
         BufferedInputStream buf=null;
-        //创建一个文件对象，对应的文件就是python把词云图片生成后的路径以及对应的文件名
         chinaso.com.demo.springboot.entity.File fileInfo = fileMapper.getFileInfo(fid);
             String filePath = fileUploadDir + fileInfo.getName() + fileInfo.getSuffixName();
             File file = new File(filePath);

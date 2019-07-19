@@ -25,6 +25,21 @@ public interface UserMapper {
     })
     User getUserByCode(@Param("accountId") String accountId, @Param("code") String code);
 
+    @Select("SELECT * FROM user WHERE email = #{email}")
+    @Results({
+            @Result(property = "accountId",  column = "accountId"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "nickname",  column = "nickname"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "sex",  column = "sex"),
+            @Result(property = "age", column = "age"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "code", column = "code"),
+            @Result(property = "createtime",  column = "createtime"),
+            @Result(property = "updatetime", column = "updatetime")
+    })
+    User getUserByEmail(@Param("email") String email);
+
     @Select("SELECT * FROM user WHERE accountId = #{accountId}")
     @Results({
             @Result(property = "accountId",  column = "accountId"),
@@ -45,6 +60,9 @@ public interface UserMapper {
 
     @Update("UPDATE user SET status=#{status},updatetime=#{updatetime} WHERE accountId =#{accountId}")
     void update(User user);
+
+    @Update("UPDATE user SET password=#{password},updatetime=#{updatetime} WHERE accountId =#{accountId}")
+    void updatePw(User user);
 
     @Select("SELECT * FROM user WHERE accountId = #{accountId} AND password = #{password}")
     @Results({

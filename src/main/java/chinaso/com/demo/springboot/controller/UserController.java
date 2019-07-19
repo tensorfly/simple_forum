@@ -1,6 +1,7 @@
 package chinaso.com.demo.springboot.controller;
 
 import chinaso.com.demo.springboot.Util.DateAndTimeUtil;
+import chinaso.com.demo.springboot.Util.FindPasswordMailUtil;
 import chinaso.com.demo.springboot.Util.MD5Util;
 import chinaso.com.demo.springboot.Util.MailUtil;
 import chinaso.com.demo.springboot.entity.User;
@@ -95,7 +96,7 @@ public class UserController {
                 session.setAttribute("user",user);
                 return "redirect:/";
             }else{
-                message = "账号未激活";
+                message = "账号未激活,非法登录";
             }
         }else{
             message="用户名或密码错误，请重新登录";
@@ -130,6 +131,13 @@ public class UserController {
         User selectUser =  userService.getUserByAccountId(accountId);
         if(null != selectUser ){
             message = "该账号已被注册";
+            model.addAttribute("flag",flag);
+            model.addAttribute("message",message);
+            return "register_new";
+        }
+        User newUser = userService.getUserByEmail(user.getEmail());
+        if(null != newUser ){
+            message = "该邮箱已被注册";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
             return "register_new";
@@ -192,22 +200,93 @@ public class UserController {
     }
 
 
+    //重置密码
+    @RequestMapping(value = "/modify/password",method = RequestMethod.POST)
+    public String modifyPassword(@RequestParam String accountId, @RequestParam String code,
+            @RequestParam  String password,
+            HttpServletRequest request,
+            Model model) {
+        String message = "";
+        boolean flag = false;
+        //根据用户id获取用户信息
+        User user = userService.getUser(accountId,code);
+        if(null != user){
+            if(user.getStatus()==0){
+                message="账号未激活，请联系管理员";
+            }else{
+                user.setPassword(MD5Util.md5(password));
+                user.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
+                int count = userService.updateUserPassword(user);
+                if(count>0){
+                    flag = true;
+                    message = "修改密码成功，请登录";
+                }else{
+                    message = "修改密码失败，请稍后再试";
+                }
+            }
+        }else{
+            message="该账户不存在，修改密码失败";
+        }
+        model.addAttribute("flag",flag);
+        model.addAttribute("message",message);
+        return "activation";
+    }
+
+    //跳转至重置密码页面
+    @RequestMapping(value = "/resetPassword/{accountId}/{code}",method = RequestMethod.GET)
+    public String resetPassword(@PathVariable("accountId") String accountId, @PathVariable("code") String code,Model model) {
+        boolean reasonable = false;
+        String  info= "";
+        User user = userService.getUser(accountId,code);
+        if(null != user){
+            //进入重置密码页面
+            reasonable = true;
+        }else{
+            reasonable = false;
+            info = "非法入侵者" ;
+        }
+        model.addAttribute("accountId",accountId);
+        model.addAttribute("code",code);
+        model.addAttribute("reasonable",reasonable);
+        model.addAttribute("info",info);
+        return "resetPassword";
+    }
+
+
+
+
     /**
      * 忘记密码--找回密码
      */
-    @RequestMapping(value = "forgetPassword",method = {
-            RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
+    @RequestMapping(value = "/forgetPassword")
     public String forgetPassword(
-            @RequestParam(value = "username",required = true) String username,
             @RequestParam(value = "email",required = true) String email,
-            @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
-            HttpServletRequest request, HttpServletResponse response){
-        String result = "";
-        if (jsonpcallback != null) {
-            return jsonpcallback + "(" + result + ")";
+            HttpServletRequest request,
+            Model model){
+        boolean flag = false;
+        String message = "";
+        if(email == null || StringUtils.isEmpty(email)){
+            message="邮箱不允许为空";
+            model.addAttribute("flag",flag);
+            model.addAttribute("message",message);
+            return "forgetPassword";
         }
-        return result;
+        User user = userService.getUserByEmail(email);
+        if(null != user){
+            flag = true;
+            message = "找回密码成功，请去邮箱重置密码";
+            //找回密码成功则通过线程的方式给用户发送一封邮件
+            //服务器地址
+            String url="http://" + request.getServerName()+ ":" + request.getServerPort();
+            new Thread(new FindPasswordMailUtil(email, user.getPassword(),user.getAccountId(),url)).start();
+
+        }else{
+            message="该邮箱不存在，请输入正确的邮箱账号";
+        }
+        model.addAttribute("flag",flag);
+        model.addAttribute("message",message);
+        return "forgetPassword";
+
     }
 
 
