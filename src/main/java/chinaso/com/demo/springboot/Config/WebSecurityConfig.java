@@ -22,6 +22,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
      */
     public final static String SESSION_KEY = "user";
 
+    public final static String SESSION_ADMIN_KEY = "admin";
+
     @Bean
     public SecurityInterceptor getSecurityInterceptor() {
         return new SecurityInterceptor();
@@ -44,7 +46,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         addInterceptor.excludePathPatterns("/js/**");
         addInterceptor.excludePathPatterns("/image/**");
         addInterceptor.excludePathPatterns("/code/**");
-        addInterceptor.excludePathPatterns("/admin/**");
+        addInterceptor.excludePathPatterns("/admin/toLogin");
+        addInterceptor.excludePathPatterns("/admin/login");
         addInterceptor.excludePathPatterns("/commodity/**");
         addInterceptor.excludePathPatterns("/toForgetPasswordPage");
         addInterceptor.excludePathPatterns("/forgetPassword");
@@ -69,6 +72,16 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
                 if (session.getAttribute(SESSION_KEY) != null)
                     return true;
             }
+
+            String requestURI = request.getRequestURI();
+            if(requestURI.contains("admin") ){
+                if(null != request.getSession().getAttribute(SESSION_ADMIN_KEY)){
+                    return true;
+                }
+                    response.sendRedirect(request.getContextPath()+"/admin/toLogin");
+                    return false;
+                }
+
             // 跳转登录
             String url = "/toLogin";
             response.sendRedirect(url);

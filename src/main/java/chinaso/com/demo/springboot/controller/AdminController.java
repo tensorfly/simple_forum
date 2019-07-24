@@ -47,7 +47,7 @@ public class AdminController {
             @RequestParam(value = "password",required = true) String password,
             @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
             HttpServletRequest request, HttpServletResponse response){
-        String result = adminService.login(username,password);
+        String result = adminService.login(username,password,request);
         if (jsonpcallback != null) {
             return jsonpcallback + "(" + result + ")";
         }
