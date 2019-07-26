@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         addInterceptor.excludePathPatterns("/forgetPassword");
         addInterceptor.excludePathPatterns("/resetPassword/**");
         addInterceptor.excludePathPatterns("/modify/password");
+        addInterceptor.excludePathPatterns("/common/**");
 
 
 
