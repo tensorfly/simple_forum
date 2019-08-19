@@ -82,7 +82,8 @@ public class TopicController {
         model.addAttribute("topics", topics);
         model.addAttribute("sections", sections);
         model.addAttribute("sectionId", sectionId);
-        return "index_new";
+       /* return "index_new";*/
+        return "libra_navigation";
     }
 
     /**
@@ -132,7 +133,8 @@ public class TopicController {
         model.addAttribute("flag",flag);
         model.addAttribute("accountId",accountId);
         model.addAttribute("sections", sections);
-        return "topic/publish_new";
+        /*return "topic/publish_new";*/
+        return "topic/libra_release";
     }
 
     /**
@@ -147,7 +149,8 @@ public class TopicController {
         //默认审核通过
         topic.setState(0);
         int count = topicService.addTopic(topic);
-        return "redirect:/";
+        /*return "redirect:/";*/
+        return "redirect:/topic/list";
     }
 
     /**
@@ -173,7 +176,8 @@ public class TopicController {
         }
         model.addAttribute("topic",topic);
         model.addAttribute("replys",replys);
-        return "topic/detail_new";
+        /*return "topic/detail_new";*/
+        return "topic/libra_detail";
     }
 
 }

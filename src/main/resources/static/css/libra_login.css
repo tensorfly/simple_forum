@@ -1,0 +1,593 @@
+html,
+body,
+.container-fluid {
+  height: 100%;
+}
+
+.container01 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: -40px;
+  margin-bottom: -160px;
+}
+
+.top_nav {
+  color: #fff;
+  line-height: 40px;
+  height: 40px;
+}
+
+.login_body {
+  width: 360px;
+  margin: 0 auto;
+  min-height: 355px;
+}
+
+.libra_login {
+  background: url(../image/login_bj.png) top no-repeat #2D258B;
+  background-size: cover;
+  background-size: cover;
+  background-position: bottom;
+}
+
+.libra_login #wrap span {
+  font-size: 30px;
+  color: #C4C2DE;
+  font-weight: 400;
+  text-align: center;
+  line-height: 54px;
+  height: 54px;
+  display: block;
+  float: left;
+  width: 77px;
+  margin: 0 12%;
+}
+
+.libra_login #wrap .select {
+  border-bottom: 2px solid #fff;
+  color: #fff;
+}
+
+.clearfix:after,
+.container-fluid:after,
+.container:after,
+.dl-horizontal:after,
+.row-fluid:after,
+.row:after {
+  clear: both
+}
+
+.img-polaroid,
+body,
+select {
+  background-color: #fff
+}
+
+#wrap,
+#tit {
+  overflow: hidden;
+}
+
+a:active,
+a:hover {
+  outline: 0
+}
+
+img {
+  width: auto\9;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic
+}
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle
+}
+
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+  cursor: pointer;
+  -webkit-appearance: button
+}
+
+button,
+input[type=button],
+input[type=reset],
+input[type=submit],
+input[type=radio],
+input[type=checkbox],
+label,
+select {
+  cursor: pointer
+}
+
+a {
+  color: #08c;
+  text-decoration: none
+}
+
+a:focus,
+a:hover {
+  color: #005580;
+  text-decoration: underline
+}
+
+[class*=span] {
+  float: left;
+  min-height: 1px;
+  margin-left: 20px
+}
+
+.container-fluid:after,
+.container-fluid:before,
+.container:after,
+.container:before {
+  display: table;
+  line-height: 0;
+  content: ""
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto
+}
+
+.container-fluid {
+  padding-right: 20px;
+  padding-left: 20px
+}
+
+.navbar-search .search-query,
+button,
+input,
+select,
+textarea {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+button,
+input,
+label,
+select,
+textarea {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px
+}
+
+label {
+  display: block;
+  margin-bottom: 5px
+}
+
+.uneditable-input,
+input[type=text],
+input[type=password],
+input[type=datetime],
+input[type=datetime-local],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=week],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=tel],
+input[type=color],
+input[type=search],
+select,
+textarea {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 76px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #6F6794;
+  vertical-align: middle;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px
+}
+
+.uneditable-input,
+input,
+textarea {
+  width: 206px
+}
+
+.uneditable-input,
+input[type=text],
+input[type=password],
+input[type=datetime],
+input[type=datetime-local],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=week],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=tel],
+input[type=color],
+input[type=search],
+textarea {
+  background-color: #fff;
+  border: none;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border linear .2s, box-shadow linear .2s;
+  -moz-transition: border linear .2s, box-shadow linear .2s;
+  -o-transition: border linear .2s, box-shadow linear .2s;
+  transition: border linear .2s, box-shadow linear .2s
+}
+
+.uneditable-input:focus,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=datetime]:focus,
+input[type=datetime-local]:focus,
+input[type=date]:focus,
+input[type=month]:focus,
+input[type=time]:focus,
+input[type=week]:focus,
+input[type=number]:focus,
+input[type=email]:focus,
+input[type=url]:focus,
+input[type=tel]:focus,
+input[type=color]:focus,
+input[type=search]:focus,
+textarea:focus {
+  border-color: rgba(82, 168, 236, .8);
+  outline: 0;
+  outline: dotted thin\9;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6)
+}
+
+input[type=button],
+input[type=reset],
+input[type=file],
+input[type=image],
+input[type=submit],
+input[type=radio],
+input[type=checkbox] {
+  width: auto
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #999
+}
+
+.span-primary {
+  border-radius: 50px;
+  background-color: #3F33D3
+}
+
+.span-primary,
+.span-success {
+  border: none;
+  display: inline-block;
+  float: none;
+  padding: 3px 10px;
+  margin: 0;
+  font-size: 14px;
+  transition: all .2s ease-in-out;
+  letter-spacing: 2px;
+  box-shadow: none;
+  line-height: 2em;
+  vertical-align: middle;
+  color: #fff;
+  cursor: pointer
+}
+
+.form-horizontal .control-group:after,
+.form-horizontal .control-group:before {
+  display: none;
+  line-height: 0;
+  content: ""
+}
+
+input,
+input:focus,
+textarea,
+textarea:focus {
+  box-shadow: 0 0 2px rgba(60, 60, 60, .5)
+}
+
+#forgot_password {
+  margin-left: 1em
+}
+
+input,
+textarea {
+  background: hsla(0, 0%, 0%, 0)
+}
+
+body,
+input,
+p,
+textarea {
+  font-size: 14px;
+  word-break: break-word
+}
+
+.uneditable-input,
+input[type=text],
+input[type=url],
+input[type=search],
+input[type=tel],
+input[type=color],
+input[type=password],
+input[type=datetime],
+input[type=datetime-local],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=week],
+input[type=number],
+input[type=email],
+textarea {
+  background: rgba(31, 12, 96, 1);
+}
+
+.form-horizontal .form-actions {
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+}
+
+.form-horizontal .control-group {
+  margin-bottom: 14px
+}
+
+.form-horizontal .control-group:after,
+.form-horizontal .control-group:before {
+  display: table;
+  line-height: 0;
+  content: ""
+}
+
+.form-horizontal .control-label {
+  float: left;
+  width: 160px;
+  padding-top: 5px;
+  text-align: right
+}
+
+.control-group {
+  margin-bottom: 10px
+}
+
+.form-horizontal .help-inline,
+.form-horizontal .input-append,
+.form-horizontal .input-prepend,
+.form-horizontal .uneditable-input,
+.form-horizontal input,
+.form-horizontal select,
+.form-horizontal textarea,
+.form-inline .help-inline,
+.form-inline .input-append,
+.form-inline .input-prepend,
+.form-inline .uneditable-input,
+.form-inline input,
+.form-inline select,
+.form-inline textarea,
+.form-search .help-inline,
+.form-search .input-append,
+.form-search .input-prepend,
+.form-search .uneditable-input,
+.form-search input,
+.form-search select,
+.form-search textarea {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+  height: 48px;
+  line-height: 48px;
+  width: 97%;
+  margin: 0 5px;
+}
+
+
+
+.controls-row:after,
+.controls-row:before,
+.form-actions:after,
+.form-actions:before {
+  display: table;
+  line-height: 0;
+  content: ""
+}
+
+.uneditable-input,
+input,
+textarea {
+  margin-left: 0
+}
+
+.row-fluid .uneditable-input[class*=span],
+.row-fluid input[class*=span],
+.row-fluid select[class*=span],
+.row-fluid textarea[class*=span],
+.uneditable-input[class*=span],
+input[class*=span],
+select[class*=span],
+textarea[class*=span] {
+  float: none;
+  margin-left: 0
+}
+
+.input-xlarge {
+  width: 270px
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #6F6794
+}
+
+.icon-phone {
+  position: absolute;
+  left: 25px;
+  top: 1rem;
+  background-image: url(../image/login_popo.png);
+}
+
+.icon-password {
+  position: absolute;
+  left: 25px;
+  top: 1rem;
+  background-image: url(../image/login_suo.png);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  border: 0;
+  float: left;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  z-index: 1;
+  padding-right: 35px;
+  border-right: 1px solid #9F9BB7;
+}
+
+.controls,
+.input-xlarge {
+  position: relative;
+  height: 46px;
+  line-height: 46px;
+}
+
+.inner {
+  margin-top: 40px;
+}
+
+#code {
+  width: 55%;
+  padding: 0 28px;
+}
+
+.controls a {
+  display: block;
+  width: 38%;
+  height: 48px;
+  text-align: center;
+  background: #1F0C60;
+  border-radius: 30px;
+  float: right;
+}
+
+.span-primary {
+  width: 48px !important;
+  background: url(../image/login_jt.png) 12px 12px no-repeat #3F33D3;
+}
+
+.time {
+  font-size: 14px;
+  color: #8D8D8D;
+  padding: 0 0 2% 0;
+  text-align: center;
+}
+
+#con .showOn {
+  display: block;
+}
+
+#con li {
+  display: none;
+}
+
+.span-primary {
+  outline: none
+}
+
+.register .form-horizontal input {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+  padding: 4px 26px;
+
+}
+.register .span-primary{
+  color: rgba(255,255,255,0);
+}
+
+input[type=button],
+input[type=reset],
+input[type=file],
+input[type=image],
+input[type=submit],
+input[type=radio],
+input[type=checkbox] {
+  width: auto;
+}
+
+.register input[type=radio],
+input[type=checkbox] {
+  margin: 0px 5px 0;
+  margin-top: 1px\9;
+  line-height: normal;
+}
+
+button,
+input[type=button],
+input[type=reset],
+input[type=submit],
+input[type=radio],
+input[type=checkbox],
+label,
+select {
+  cursor: pointer;
+}
+
+input,
+input:focus,
+textarea,
+textarea:focus {
+  box-shadow: 0 0 2px rgba(60, 60, 60, .5);
+}
+
+.register .controls {
+  font-size: 16px;
+  color: #ADAABB;
+  text-align: center;
+}
+#con{    padding: 0;}
+.footter{
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  padding: 0;
+  width: 95%;
+}
+
+.alert {
+  padding: 13px 10px 13px 0;
+  border: 1px solid transparent;
+  height: 46px;
+  border-radius: 23px;
+  opacity: 0.6734;
+  color: #A40303;
+  font-size: 16px;
+  background: url(../image/warning.png) #fff 20px 13px no-repeat;
+  padding-left: 50px;
+  width: 96%;
+  margin: 0 auto 14px;
+}

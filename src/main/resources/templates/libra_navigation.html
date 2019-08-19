@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../static/image/favicon-32x32.png" type="image/x-icon"/>
+  <title>导航列表</title>
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <link href="../static/css/libra_component.css" rel="stylesheet">
+  <link href="../static/css/libra_navigation.css" rel="stylesheet">
+  <script src="../static/js/ie-emulation-modes-warning.js"></script>
+</head>
+
+<body class="libra_login">
+<!-- common公共头部 -->
+<div th:replace="libra_header :: libra_header"></div>
+<!-- common公共搜索部 -->
+<div th:replace="libra_header :: libra_search"></div>
+
+  <div class="main">
+    <div class="container">
+      <div id="main">
+        <div id="content">
+          <div class="panel">
+            <div class="menu">
+              <div class="top_menu">
+                <div class="header top_menu_list" id="top_menu_list">
+                  <a href="/topic/list" th:if="${sectionId eq 0}"
+                     class="topic-tab current-tab">全部</a>
+                  <a href="/topic/list" th:if="${ not (sectionId eq 0)}"
+                     class="topic-tab" >全部</a>
+                  <span th:each="section,iterStat : ${sections}">
+                    <a th:href="@{${'/topic/list'}(sectionId=${section.sectionId},title=${title})}"
+                       th:if="${section.sectionId eq sectionId}" class="topic-tab current-tab" th:text="${section.title}"></a>
+                    <a th:href="@{${'/topic/list'}(sectionId=${section.sectionId},title=${title})}"
+                       th:if="${ not (section.sectionId eq sectionId)}" class="topic-tab" th:text="${section.title}"></a>
+                  </span>
+                </div>
+                <a href="/toLogin" th:if="${session.user} == null"> <div class="top_fbwt">
+                  <i>发布问题</i>
+                </div></a>
+                <a th:if="${session.user} != null" th:href="@{/topic/toPublish(accountId=${session.user.accountId})}" th:target="_blank"> <div class="top_fbwt">
+                  <i>发布问题</i>
+                </div></a>
+              </div>
+            </div>
+            <div class="inner no-padding">
+              <div id="topic_list">
+                <div class="cell" th:each="topic,iterStat : ${topics}">
+                  <span class="last_time pull-right">
+                    <span class="last_active_time" th:text="${topic.createtime}"></span>
+                  </span>
+                  <div class="topic_title_wrapper">
+                    <a class="topic_title" th:href="@{/topic/detail(topicId=${topic.topicId})}" th:text="${topic.title}"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="pagination" th:if=" ${totalPages} gt '1'" th:attr="current_page=${pageNum}">
+                <ul>
+                  <li th:if="${not isFirstPage}">
+                    <a th:if="${not isFirstPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum-1},pageSize=${pageSize},title=${title},sectionId=${sectionId})}">«</a>
+                  </li>
+
+                  <li  th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}">
+                    </a>
+
+                    <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/topic/list'}(pageNum=${pageNo},pageSize=${pageSize},title=${title},sectionId=${sectionId})}" th:text="${pageNo}">
+                    </a>
+                  </li>
+                  <li th:if="${not isLastPage}">
+                    <a th:if="${not isLastPage}" th:href="@{${'/topic/list'}(pageNum=${pageNum+1},pageSize=${pageSize},title=${title},sectionId=${sectionId})}">»</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- common公共尾部 -->
+  <div th:replace="libra_footer :: libra_footer"></div>
+  <script src="../static/js/jquery.min.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../static/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="../static/js/pack.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          var $nav = $('.pagination');
+          var current_page = $nav.attr('current_page');
+          if (current_page) {
+              $nav.find('li').each(function () {
+                  var $li = $(this);
+                  var $a = $li.find('a');
+                  if ($a.html() == current_page) {
+                      $li.addClass('active');
+                      $a.removeAttr('href');
+                  }
+              });
+          }
+      });
+    (function () {
+      var $navBox = $("#top_menu_list");
+
+      function getTabPosition() {
+        var bodyWidth = document.body.clientWidth;
+        boxWidth = $navBox[0].clientWidth,
+          scrollWidth = $navBox[0].scrollWidth;
+        $navBox.find("a").each(function () {
+          var moveLeft, itemWidth = this.clientWidth,
+            itemInfo = this.getBoundingClientRect().left;
+          var centerPos = bodyWidth / 2;
+          var moveLeft, beishu = itemInfo / centerPos;
+          if (itemInfo <= centerPos) {
+            moveLeft = 0;
+          } else if (beishu == scrollWidth / centerPos) {
+            moveLeft = scrollWidth - bodyWidth;
+          } else if (beishu > 1) {
+            moveLeft = itemInfo - centerPos + itemWidth / 2;
+          }
+          this.setAttribute("scroll-left", moveLeft);
+        });
+      }
+      //$(".top_menu_list a[data-filter='"+channel+"']").addClass("cur");
+      $navBox.on({
+        "click": function () {
+          var s = parseInt(this.getAttribute("scroll-left"));
+          $(this).addClass("cur").siblings().removeClass("cur");
+          $navBox.parent().scrollLeft(s);
+        }
+      }, "a");
+      getTabPosition();
+    })()
+  </script>
+</body>
+
+</html>

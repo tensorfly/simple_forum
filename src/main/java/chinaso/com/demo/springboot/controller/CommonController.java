@@ -81,4 +81,15 @@ public class CommonController {
         return "资源文件不存在";
     }
 
+
+    @RequestMapping("/libra_index.html")
+    public String home(){
+        return "common/libra_index";
+    }
+
+    @RequestMapping("/libra_navigationall.html")
+    public String nav(){
+        return "common/libra_navigationall";
+    }
+
 }

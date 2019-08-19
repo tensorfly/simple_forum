@@ -58,7 +58,8 @@ public class ReplyController {
         }
         model.addAttribute("topic",topic);
         model.addAttribute("replys",replys);
-        return "topic/detail_new";
+        /*return "topic/detail_new";*/
+        return "topic/libra_detail";
     }
 
     /**

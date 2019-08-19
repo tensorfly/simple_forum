@@ -1,0 +1,170 @@
+/*2017-04-25 10:48:19 - static_tmp/base/css/nav_new.css*/
+.ad-gallery,
+.ad-image-wrapper,
+.ad-image-wrapper .ad-image {
+  position: relative
+}
+
+.ad-gallery {
+  width: 100%;
+  background: #e1eef5
+}
+
+.ad-image-wrapper {
+  width: 100%
+}
+
+.ad-image-wrapper .ad-image img {
+  width: 100%;
+  -moz-transition: transform 1s ease-out;
+  -ms-transition: transform 1s ease-out;
+  -o-transition: transform 1s ease-out;
+  transition: transform 1s ease-out
+}
+
+.ad-image-wrapper .ad-next,
+.ad-image-wrapper .ad-prev {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  background: url(/www/common/base/static/image/ad_prev.png);
+  opacity: .6;
+  cursor: pointer
+}
+
+.ad-image-wrapper .ad-next {
+  right: 0;
+  background: url(/www/common/base/static/image/ad_next.png)
+}
+
+.ad-image-wrapper .ad-title div {
+  float: right
+}
+
+.ad-nav {
+  width: 100%;
+  height: 74px
+}
+
+.ad-thumbs {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 100%
+}
+
+.ad-thumb-list {
+  position: absolute;
+  width: 9999px;
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0
+}
+
+.ad-thumb-list li {
+  float: left
+}
+
+.ad-thumb-list li img {
+  display: block
+}
+
+.ad-thumb-list li.cur img {
+  border: 3px solid red
+}
+
+.ad-image-wrapper .ad-image img:hover {
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  transform: scale(1.02);
+  opacity: 1 !important
+}
+
+.ad-image-wrapper .ad-title {
+  height: 33px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  line-height: 33px;
+  background: url(http://n2.static.pg0.cn/www/common/base/image/news_image_ico_bg.png);
+  width: 100%;
+  background-image: linear-gradient(transparent, #000);
+  background-size: auto 100%;
+  text-indent: 5px
+}
+
+.ad-image-wrapper .ad-title,
+.ad-image-wrapper .ad-title a {
+  color: #fff
+}
+
+.ad-image-wrapper .ad-title .num {
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+  font-family: Arial, Georgia;
+  font-style: italic;
+  letter-spacing: 2px
+}
+
+.ad-image-wrapper .ad-next,
+.ad-image-wrapper .ad-prev {
+  top: 43%;
+  width: 30px;
+  background: url(static/image/ad_prev.png);
+  opacity: .6;
+  width: 40px;
+  height: 70px;
+  display: block;
+  position: absolute;
+  z-index: 2;
+  background: url(http://n1.static.pg0.cn/zj/static/v1/image/innerbtn.png) no-repeat;
+  opacity: .6
+}
+
+.ad-image-wrapper .ad-prev {
+  left: 0;
+  background-position: 0 1px;
+  left: -40px
+}
+
+.ad-image-wrapper .ad-next {
+  background-position: -37px 1px;
+  right: -40px
+}
+
+.mouseover .ad-prev {
+  left: 0 !important;
+  -webkit-transition: left .3s ease-in-out;
+  -moz-transition: left .3s ease-in-out;
+  -o-transition: left .3s ease-in-out;
+  transition: left .3s ease-in-out
+}
+
+.mouseover .ad-next {
+  right: 0 !important;
+  -webkit-transition: right .3s ease-in-out;
+  -moz-transition: right .3s ease-in-out;
+  -o-transition: right .3s ease-in-out;
+  transition: right .3s ease-in-out
+}
+
+.mouseout .ad-prev {
+  left: -40px;
+  -webkit-transition: left .3s ease-in-out;
+  -moz-transition: left .3s ease-in-out;
+  -o-transition: left .3s ease-in-out;
+  transition: left .3s ease-in-out
+}
+
+.mouseout .ad-next {
+  right: -40px;
+  -webkit-transition: right .3s ease-in-out;
+  -moz-transition: right .3s ease-in-out;
+  -o-transition: right .3s ease-in-out;
+  transition: right .3s ease-in-out
+}

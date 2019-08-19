@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<div class="container-fluid" th:fragment="libra_header">
+    <div class="nav navbar">
+        <div class="fl">
+            <p><a href="/topic/list">Libra中文网首页</a></p>
+        </div>
+        <div class="fr">
+            <ul class="nav pull-right">
+                <li><a href="/toRegister" th:if="${session.user} == null">注册</a></li>
+                <li><a href="/toLogin" th:if="${session.user} == null">登录</a></li>
+                <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
+                <li><a  href="/loginOut" th:if="${session.user} != null">退出</a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- <div class="container">
+  </div> -->
+<div class="logo" th:fragment="libra_search">
+    <a href="/">
+        <img src="../static/image/nav_logo.png">
+    </a>
+    <form id="search_form" class="navbar-search" action="/topic/list" method="post" name="searchForm">
+        <div class="search_all">
+            <i class="icon" id="search"></i>
+            <input type="text" name="title" th:value="${title}" autocomplete="off" placeholder="输入您要搜索的内容" class="search-query span3">
+        </div>
+    </form>
+</div>

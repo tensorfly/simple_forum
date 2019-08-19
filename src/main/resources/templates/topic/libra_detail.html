@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../static/image/favicon-32x32.png" type="image/x-icon"/>
+  <title>详情页</title>
+  <meta name="toTop" content="true">
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/libra_component.css" rel="stylesheet">
+  <link href="../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <link href="../static/css/libra_component.css" rel="stylesheet">
+  <link href="../static/css/libra_detail.css" rel="stylesheet">
+  <script src="../static/js/ie-emulation-modes-warning.js"></script>
+</head>
+
+<body class="libra_login">
+  <div class="container-fluid">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="navbar-brand" href="/topic/list">Libra中文网首页</a>
+          <form id="search_form" class="navbar-search" action="/topic/list" method="post" name="searchForm">
+            <input type="text" name="title" value="" class="search-query span3" autocomplete="off">
+          </form>
+          <ul class="nav pull-right">
+            <li><a href="/toRegister" th:if="${session.user} == null">注册</a></li>
+            <li><a href="/toLogin" th:if="${session.user} == null">登录</a></li>
+            <li><a  href="javascript:void(0)" th:if="${session.user} != null" th:text="${session?.user?.accountId}"></a></li>
+            <li><a  href="/loginOut" th:if="${session.user} != null">退出</a></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+        </div>
+      </div>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="panel">
+            <div class="header topic_header">
+              <span class="topic_full_title" th:text="${topic.title}"></span>
+              <div class="changes">
+                <span th:text="'发布于  ' + ${topic.createtime}"></span>
+                <span th:text="'作者  ' + ${topic.accountId}"></span>
+                <span th:text="'来自'+ ${topic.sectionName} "></span>
+              </div>
+              <div id="manage_topic">
+              </div>
+            </div>
+            <div class="inner topic">
+              <div class="topic_content" th:utext="${topic.content}">
+              </div>
+            </div>
+          </div>
+          <div class="panel" th:if="${not #lists.isEmpty(replys)}">
+            <div class="header" >
+              <span class="topic-tab" th:text="${#lists.size(replys)} + '回复'"></span>
+            </div>
+            <div class="cell reply_area reply_item" th:each="reply,iterStat : ${replys}">
+              <div class="author_content">
+                <div class="user_info">
+                  <a class="dark reply_author" th:text="${reply.accountId}"></a>
+                  <a class="reply_time" th:text="${iterStat.index+1} + '楼•'"></a>
+                  <a class="reply_time" th:text="${reply.createtime}"></a>
+                </div>
+              </div>
+              <div class="reply_content from-afacode">
+                <div class="markdown-text">
+                  <p th:text="${reply.content}"></p>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="reply2_area">
+              </div>
+            </div>
+          </div>
+          <div class="panel" th:if="${session.user} != null">
+            <div class="header">
+              <span class="col_fade">添加回复</span>
+            </div>
+            <div class="inner reply">
+              <form id="reply_form" action="/reply" method="post" name="replyForm" onsubmit="return CheckPost();">
+                <input type="hidden" name="accountId" placeholder="账号" th:value="${session?.user?.accountId}"/>
+                <input type="hidden" name="topicId" placeholder="帖子id" th:value="${topic.topicId}"/>
+                <div class="markdown_editor in_editor">
+                  <div class="markdown_editor in_editor">
+                    <div class="markdown_in_editor">
+                      <textarea class="editor" name="content" rows="8"></textarea>
+                      <div class="editor_buttons">
+                        <input type="submit" class="span-primary" value="提交">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="toTop"></div>
+    </div>
+  </div>
+
+  <script src="../static/js/jquery.min.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+<script>
+  jQuery(document).ready(function ($) {
+    if ($("meta[name=toTop]").attr("content") == "true") {
+      if ($(this).scrollTop() == 0) {
+        $("#toTop").hide();
+      }
+      $(window).scroll(function (event) {
+        if ($(this).scrollTop() == 0) {
+          $("#toTop").hide();
+        }
+        if ($(this).scrollTop() != 0) {
+          $("#toTop").show();
+        }
+      });
+      $("#toTop").click(function (event) {
+        $("html,body").animate({
+          scrollTop: "0px"
+        }, 666)
+      });
+    }
+  });
+
+  function CheckPost() {
+      if (replyForm.content.value == "") {
+          alert("请填写内容！");
+          replyForm.content.focus();
+          return false;
+      }
+      return true;
+  }
+</script>
+
+</html>

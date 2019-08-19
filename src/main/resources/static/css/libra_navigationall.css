@@ -1,0 +1,276 @@
+body {
+  padding-top: 70px;
+}
+
+.libra_body {
+  background: #F4F4F4
+}
+
+a.list-group-item:focus,
+a.list-group-item:hover,
+button.list-group-item:focus,
+button.list-group-item:hover {
+  background-color: #fff;
+  color: #2D258B;
+}
+
+.list-group {
+  font-size: 16px;
+  margin-right: 34px;
+  background: #fff;
+  padding: 20px 0 40px 0;
+}
+
+.list-group-item.active,
+.list-group-item.active:focus,
+.list-group-item.active:hover {
+  z-index: 2;
+  color: #2D258B;
+  background-color: #fff;
+  border-left: 3px solid #2D258B;
+  padding-left: 25px;
+}
+
+.list-group-item {
+  border: none;
+  margin: 20px 0px 20px 0;
+  padding: 0 0 0 28px;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.list-group-item:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.sidebar {
+  margin-top: 37px;
+  padding: 0;
+  z-index: 10;
+}
+
+.col-sm-3 {
+  padding-bottom: 15px
+}
+
+.col-sm-3 .n1 {
+  border: 1px solid #f0f2f9;
+  overflow: hidden;
+  padding: 10px 8px 0px 10px;
+  height: 80px;
+}
+
+.col-sm-3 img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.n1:hover {
+
+  box-shadow: 0 2px 14px 0 rgba(159, 169, 176, .23);
+}
+
+.n1 a:hover,
+a {
+  text-decoration: none;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+/*指正常的未被访问过的链接*/
+
+a:visited {
+  text-decoration: none;
+}
+
+/*指已经访问过的链接*/
+
+a:hover {
+  text-decoration: none;
+}
+
+/*指鼠标在链接*/
+
+a:active {
+  text-decoration: none;
+}
+
+/*指正在点的链接*/
+
+
+.name {
+  line-height: 30px;
+  font-size: 16px;
+  color: #333;
+}
+
+.col-sm-3 h2 {
+  float: left;
+  font-size: 16px;
+  margin: 0;
+}
+
+.col-sm-3 p {
+  color: #84929c;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+  width: 100%;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.baike-zxbd1:hover {
+  cursor: pointer;
+  -moz-user-select: none;
+  /*火狐*/
+
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
+}
+
+.baike-zxbd1 {
+  float: right;
+  padding: 30px 0;
+  color: #83929C;
+  font-size: 14px;
+}
+
+.baike-zxbd1 i {
+  margin-left: 5px
+}
+
+.col-sm-12 h3 {
+  float: left;
+  font-size: 16px;
+  color: #333;
+  padding: 20px 0;
+}
+
+.col-sm-10 {
+  background: #fff;
+  margin: 37px 0 90px 0;
+  padding-bottom: 70px
+}
+
+.containerTop {
+  position: relative;
+  top: 50px;
+}
+
+.news-body {
+  height: 180px;
+  overflow: hidden;
+  float: left;
+}
+
+.sidebar_all {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .col-xs-6 {
+    padding: 0 5px 5px 0;
+  }
+
+  .list-group-item {
+    padding: 0 0 0 15px;
+  }
+
+  .news-body {
+    height: 170px;
+  }
+  .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    padding-left: 12px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .list-group,
+  .sidebar {
+    width: 120px !important
+  }
+
+  .sidebar {
+    margin-right: 34px;
+  }
+
+  .sidebar_all {
+    width: 154px !important
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .sidebar {
+    display: none;
+  }
+
+  .col-sm-10 {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+  }
+
+  .row-offcanvas-right {
+    right: 0;
+  }
+
+  .row-offcanvas-left {
+    left: 0;
+  }
+
+  .row-offcanvas-right .sidebar-offcanvas {
+    right: -50%;
+    /* 6 columns */
+  }
+
+  .row-offcanvas-left .sidebar-offcanvas {
+    left: -50%;
+    /* 6 columns */
+  }
+
+  .row-offcanvas-right.active {
+    right: 50%;
+    /* 6 columns */
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%;
+    /* 6 columns */
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    /* 6 columns */
+  }
+
+}
+

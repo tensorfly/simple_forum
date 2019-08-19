@@ -35,7 +35,8 @@ public class UserController {
      */
     @RequestMapping("/toLogin")
     public String loginIndex(){
-        return "login_new";
+//        return "login_new";
+        return "libra_login";
     }
 
     /**
@@ -46,12 +47,14 @@ public class UserController {
     @RequestMapping("/loginOut")
     public String loginOut(HttpServletRequest request){
         request.getSession().removeAttribute("user");
-        return "redirect:/";
+        /*return "redirect:/";*/
+        return "redirect:/topic/list";
     }
 
     @RequestMapping("/")
     public String index(){
-        return "redirect:/topic/list";
+        /*return "redirect:/topic/list";*/
+        return "redirect:/common/libra_index.html";
     }
 
     /**
@@ -74,13 +77,13 @@ public class UserController {
             message="用户名不能为空";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "login_new";
+            return "libra_login";
         }
         if(password == null || StringUtils.isEmpty(password)){
             message="密码不能为空";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "login_new";
+            return "libra_login";
         }
 
         password = MD5Util.md5(password);
@@ -94,7 +97,8 @@ public class UserController {
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(600);
                 session.setAttribute("user",user);
-                return "redirect:/";
+                /*return "redirect:/";*/
+                return "redirect:/topic/list";
             }else{
                 message = "账号未激活,非法登录";
             }
@@ -103,7 +107,7 @@ public class UserController {
         }
         model.addAttribute("flag",flag);
         model.addAttribute("message",message);
-        return "login_new";
+        return "libra_login";
     }
 
 
@@ -114,7 +118,7 @@ public class UserController {
      */
     @RequestMapping("/toRegister")
     public String insert(HttpServletRequest request) {
-        return "register_new";
+        return "libra_login_reg";
     }
 
     /**
@@ -133,14 +137,14 @@ public class UserController {
             message = "该账号已被注册";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "register_new";
+            return "libra_login_reg";
         }
         User newUser = userService.getUserByEmail(user.getEmail());
         if(null != newUser ){
             message = "该邮箱已被注册";
             model.addAttribute("flag",flag);
             model.addAttribute("message",message);
-            return "register_new";
+            return "libra_login_reg";
         }
         //密码进行MD5加密
         user.setPassword(MD5Util.md5(user.getPassword()));
@@ -162,7 +166,7 @@ public class UserController {
         }
         model.addAttribute("flag",flag);
         model.addAttribute("message",message);
-       return "register_new";
+       return "libra_login_reg";
     }
 
     //激活账号
