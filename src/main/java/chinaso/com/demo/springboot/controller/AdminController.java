@@ -206,4 +206,24 @@ public class AdminController {
         return result;
     }
 
+    //置顶功能istop，0：默认不置顶，1：置顶，10:超级置顶（只有一条）
+    //置顶、取消置顶
+    @RequestMapping(value = "/topic/setTopState/{topicId}", method = {
+            RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String setTopTopic(
+            //发帖id
+            @PathVariable(value = "topicId",required = true) int topicId,
+           //istop，0：默认不置顶，1：置顶,10:超级置顶（有且只有一条）
+            @RequestParam(value = "isTop",required = true) int isTop,
+            @RequestParam(value = "jsonpcallback", required = false) String jsonpcallback,
+            HttpServletRequest request, HttpServletResponse response){
+
+        String result = topicService.setTopTopic(topicId,isTop);
+        if (jsonpcallback != null) {
+            return jsonpcallback + "(" + result + ")";
+        }
+        return result;
+    }
+
 }

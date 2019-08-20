@@ -28,4 +28,6 @@ public interface TopicService {
     String findTopicsBySectionId(int sectionId,int pageNo, int pageSize,int state);
 
     String updateState(int topicId,int state);
+
+    String setTopTopic(int topicId,int isTop);
 }

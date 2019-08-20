@@ -22,7 +22,7 @@ public interface TopicMapper {
     })
     Topic getTopic(@Param("topicId") int topicId);
 
-    @Insert("INSERT INTO topic(title,content,accountId,sectionId,state,createtime,updatetime) VALUES(#{title}, #{content}, #{accountId},#{sectionId},#{state}, #{createtime}, #{updatetime})")
+    @Insert("INSERT INTO topic(title,content,accountId,sectionId,state,isTop,toptime,createtime,updatetime) VALUES(#{title}, #{content}, #{accountId},#{sectionId},#{state},#{isTop},#{toptime}, #{createtime}, #{updatetime})")
     @Options(useGeneratedKeys=true, keyProperty="topicId", keyColumn="topicId")
     void insert(Topic topic);
 
@@ -35,7 +35,7 @@ public interface TopicMapper {
             "<if test='accountId != null'> AND accountId = #{accountId}</if>"+
             "<if test='state != 9'> AND state = #{state}</if>"+
             "</where>"+
-            "order by createtime desc"+
+            "order by istop desc,toptime desc"+
             "</script>")
     List<Topic> getAllTopic(@Param("title") String title,@Param("accountId") String accountId,@Param("sectionId") int sectionId,@Param("state") int state);
 
@@ -70,5 +70,12 @@ public interface TopicMapper {
 
     @UpdateProvider(type = SQLTopicProvider.class, method = "batchUpdateState")
     int batchUpdateState(@Param("topicIds") List<String> topicIds,@Param("state") int state);
+
+    @Update("update topic set isTop = #{isTop},toptime = #{toptime} where topicId=#{topicId}")
+    int updateTopState(@Param("topicId") int topicId,@Param("isTop") int isTop,@Param("toptime") String toptime);
+
+    //查出超级置顶那条数据
+    @Select("SELECT * FROM topic WHERE isTop = 10")
+    Topic getTopOne();
 
 }

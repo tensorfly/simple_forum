@@ -20,6 +20,10 @@ public class Topic {
     private String sectionName;
     //状态 0：默认审核通过；1：审核不通过
     private int state;
+    //是否置顶；0：默认不置顶，1：置顶，10:超级置顶（只有一条）
+    private int isTop;
+    //置顶时间(默认时间为创建时间，当贴子置顶，修改置顶时间；当帖子取消置顶，时间恢复至创建时间。便于排序)
+    private String toptime;
     //创建时间
     private String createtime;
     //更新时间
@@ -71,6 +75,22 @@ public class Topic {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public int getIsTop() {
+        return isTop;
+    }
+
+    public void setIsTop(int isTop) {
+        this.isTop = isTop;
+    }
+
+    public String getToptime() {
+        return toptime;
+    }
+
+    public void setToptime(String toptime) {
+        this.toptime = toptime;
     }
 
     public String getCreatetime() {

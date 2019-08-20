@@ -138,6 +138,11 @@
       }, "a");
       getTabPosition();
     })()
+
+      $('#search').click(function(){
+          document.searchForm.action = "/topic/list";
+          document.searchForm.submit();
+      });
   </script>
 </body>
 

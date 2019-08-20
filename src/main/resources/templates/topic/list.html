@@ -27,11 +27,12 @@
                         <tr>
                             <th width="6%"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);">
                             </th>
-                            <th width="12%">序号</th>
+                            <th width="6%">序号</th>
                             <th width="20%">标题</th>
-                            <th width="24%">创建时间</th>
-                            <th width="20%">审核状态</th>
-                            <th>操作</th>
+                            <th width="15%">创建时间</th>
+                            <th width="6%">置顶状态</th>
+                            <th width="15%">审核状态</th>
+                            <th width="25%">操作</th>
                         </tr>
                     </thead>
                     <tbody class="topic-list">
@@ -148,12 +149,18 @@
                         textValue += '<tr>' +
                                         '<td><input type="checkbox" name="IDCheck" value='+list[i].topicId+' class="acb"></td>' +
                                         '<td>'+(i+1)+'</td>' +
-                                        '<td>'+list[i].title+'</td>' +
+                                        '<td><a href="/topic/detail?topicId='+list[i].topicId+'">'+list[i].title+'</a></td>' +
                                         '<td>'+list[i].createtime.substring(0,19)+'</td>' +
+                                        '<td>'+formateTopState(list[i].isTop)+'</td>' +
                                         '<td>'+formateState(list[i].state)+'</td>' +
                                         '<td>' +
                                             (list[i].state==1?('<p><a class="check-pass btn btn-success btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',0,'+pageNo+')">通过</a></p>'):'') +
                                             (list[i].state==0?('<p><a class="check-not-pass btn btn-danger btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="check('+sectionId+','+list[i].topicId+',1,'+pageNo+')">不通过</a></p>'):'') +
+                                            (list[i].isTop==0?('<p><a class="" href="javascript:;" data-id='+list[i].topicId+' onclick="setTopState('+sectionId+','+list[i].topicId+',1,'+pageNo+')">置顶</a></p>' +
+                                                               '<p><a class="" href="javascript:;" data-id='+list[i].topicId+' onclick="setTopState('+sectionId+','+list[i].topicId+',10,'+pageNo+')">超级置顶</a></p>'):'') +
+                                            (list[i].isTop==1?('<p><a class="" href="javascript:;" data-id='+list[i].topicId+' onclick="setTopState('+sectionId+','+list[i].topicId+',0,'+pageNo+')">取消置顶</a></p>' +
+                                                               '<p><a class="" href="javascript:;" data-id='+list[i].topicId+' onclick="setTopState('+sectionId+','+list[i].topicId+',10,'+pageNo+')">超级置顶</a></p>'):'') +
+                                            (list[i].isTop==10?('<p><a class="" href="javascript:;" data-id='+list[i].topicId+' onclick="setTopState('+sectionId+','+list[i].topicId+',0,'+pageNo+')">取消置顶</a></p>'):'') +
                                             '<p><a class="delete btn btn-primary btn-sm" href="javascript:;" data-id='+list[i].topicId+' onclick="deleteTopic('+sectionId+','+list[i].topicId+')">删除</a></p>' +
                                         '</td>' +
                                     '</tr>';
@@ -234,6 +241,18 @@
             return "不通过";
         }else {
             return "待审核";
+        }
+    }
+
+    //是否置顶istop，0：否，1：是
+    //状态转换
+    function formateTopState(state) {
+        if(state==0){
+            return "未置顶";
+        }else if(state==1) {
+            return "已置顶";
+        }else {
+            return "超级置顶";
         }
     }
     
@@ -349,6 +368,30 @@
                 },
                 error : function(){
                     alert("删除失败！")
+                }
+            });
+        });
+    }
+
+    //是否置顶，1置顶，0取消置顶
+    function setTopState(sectionId,topicId,isTop,pageNo) {
+        var checkUrl = '/admin/topic/setTopState/'+topicId+"?isTop="+isTop;
+        $(".modal").modal('show');
+        $(".modal").find(".btn-ok").off('click').on("click",function () {
+            $(".modal").modal('hide');
+            $.ajax({
+                url:checkUrl,
+                type:'post',
+                dataType:'json',
+                success:function(resp){
+                    var flag = resp.status;
+                    if (flag==0) {
+                        alert(resp.msg);
+                        getTopics(sectionId,1);
+                    }else {
+                        alert(resp.msg);
+                    }
+
                 }
             });
         });

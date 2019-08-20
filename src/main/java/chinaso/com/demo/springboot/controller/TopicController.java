@@ -144,10 +144,14 @@ public class TopicController {
      */
     @RequestMapping("/publish")
     public String save(Topic topic, Model model) {
-        topic.setCreatetime(DateAndTimeUtil.getStringCurrentTime());
-        topic.setUpdatetime(DateAndTimeUtil.getStringCurrentTime());
+        String now = DateAndTimeUtil.getStringCurrentTime();
+        topic.setCreatetime(now);
+        topic.setUpdatetime(now);
+        topic.setToptime(now);
         //默认审核通过
         topic.setState(0);
+        //默认不置顶
+        topic.setIsTop(0);
         int count = topicService.addTopic(topic);
         /*return "redirect:/";*/
         return "redirect:/topic/list";
