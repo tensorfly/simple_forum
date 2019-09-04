@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>chinaso.com.demo</groupId>
-    <artifactId>forum</artifactId>
+    <artifactId>libra_forum</artifactId>
     <version>20190904-15</version>
     <packaging>jar</packaging>
-    <name>forum</name>
+    <name>libra_forum</name>
     <description>Demo project for Spring forum</description>
 
     <parent>
