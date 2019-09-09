@@ -7,6 +7,8 @@ import chinaso.com.demo.springboot.Util.MailUtil;
 import chinaso.com.demo.springboot.entity.User;
 import chinaso.com.demo.springboot.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import java.util.UUID;
 
 @Controller
 public class UserController {
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;

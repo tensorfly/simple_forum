@@ -1,6 +1,8 @@
 package chinaso.com.demo.springboot.Util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -12,6 +14,7 @@ import java.util.Properties;
  * @date 2018/6/28 14:06
  */
 public class MailUtil implements Runnable {
+    private static Logger logger = LoggerFactory.getLogger(MailUtil.class);
     private String email;// 收件人邮箱
     private String code;// 激活码
     private String accountId;//账号
@@ -70,8 +73,10 @@ public class MailUtil implements Runnable {
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件
             Transport.send(message);
+            logger.info("给用户"+accountId+"发送邮件成功！！！");
             System.out.println("邮件成功发送!");
         } catch (Exception e) {
+            logger.error("邮件发送失败",e);
             e.printStackTrace();
         }
     }
