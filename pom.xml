@@ -5,7 +5,7 @@
 
     <groupId>chinaso.com.demo</groupId>
     <artifactId>libra_forum</artifactId>
-    <version>20190904-15</version>
+    <version>20190912-11</version>
     <packaging>jar</packaging>
     <name>libra_forum</name>
     <description>Demo project for Spring forum</description>
