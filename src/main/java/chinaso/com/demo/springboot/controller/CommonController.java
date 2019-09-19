@@ -92,4 +92,19 @@ public class CommonController {
         return "common/libra_navigationall";
     }
 
+    @RequestMapping("/libra_consult01.html")
+    public String libra_consult01(){
+        return "common/consult/libra_consult01";
+    }
+
+    @RequestMapping("/libra_consult02.html")
+    public String libra_consult02(){
+        return "common/consult/libra_consult02";
+    }
+
+    @RequestMapping("/libra_consult03.html")
+    public String libra_consult03(){
+        return "common/consult/libra_consult03";
+    }
+
 }
